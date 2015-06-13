@@ -13,9 +13,28 @@ In this section we will describe the base concepts that are used across this the
 \subsection{Web service}
 \label{sub-sec:web-service}
 
-According to the W3C, "A Web service is a software system designed to support interoperable machine-to-machine interaction over a network. It has an interface described in a machine-processable format (specifically WSDL). Other systems interact with the Web service in a manner prescribed by its description using SOAP-messages, typically conveyed using HTTP with an XML serialization in conjunction with other Web-related standards."\footnote{\url{http://www.w3.org/TR/2004/NOTE-ws-gloss-20040211/}} Therefore we can define a web service in more simpler terms as a framework for a conversation between two computers that are communicating over the web, where a client sends a request message server receives that request, processes it and returns a response message.
+As the W3C states \cite{W3C}, "A Web service is a software system designed to support interoperable machine-to-machine interaction over a network. It has an interface described in a machine-processable format (specifically WSDL). Other systems interact with the Web service in a manner prescribed by its description using SOAP-messages, typically conveyed using HTTP with an XML serialization in conjunction with other Web-related standards." Therefore we can define a web service in more simpler terms as a framework for a conversation between two computers that are communicating over the web, where a client sends a request message server receives that request, processes it and returns a response message.
 
-Today interaction with web services is done typically trough HTTP. An example of web service interaction in today's web pages is described by AJAX(short for  asynchronous JavaScript and XML) requests. 	To prevent a full page transition a the browser may initiate an asynchronous request (AJAX call) asking for specific data. The server will send a response in the form of HTML code or just pure data encoded in XML or JSON.
+Interaction with web services is done typically trough HTTP. An example of web service interaction in today's web pages is described by AJAX(short for  asynchronous JavaScript and XML) requests. 	To prevent a full page transition a the browser may initiate an asynchronous request (AJAX call) asking for specific data to be rendered later(eg. rendering an email into the Gmail application). The server will send a response in the form of HTML code or just pure data encoded in XML or JSON.
+
+\subsubsection{Web API}
+\label{sub-sub-sec:web-api}
+
+Even if the messages sent and received from the web service are transmitted trough HTTP, as a developer you still need to have knowledge of the messages format that are being sent or received. Therefore you will need to know details about the service's API.
+
+An Application Programming Interface (API) is a particular
+set of rules and specifications that a software program can follow to access and make use of the services
+and resources provided by another particular software program that implements that API.
+
+A Web API defines both the server-side API as well as the client browser API and must impose specific elements like the message format or request syntax. Some web services may use SOAP, XML or JSON for data formatting on the request and response calls. On the client side a developer should know if the request syntax may imply using certain URI's (Uniform Resource Identifiers) and specific parameters and data types. On the server side the web service will act on different types of requests that can be associated with HTTP verbs like GET, POST, PUT, PATCH or DELETE. Again, the developer should know the format of the messages received and structure of the data including specific fields and data types.
+
+According to the W3C \cite{W3C} we can identify two major classes:
+\begin{itemize}
+\item REST-compliant Web services, in which the primary purpose of the service is to manipulate representations of Web resources using a uniform set of stateless operations.
+\item Arbitrary Web services, in which the service may expose an arbitrary set of operations. 
+\end{itemize}
+
+Today web API's have been moving\footnote{\url{http://www.infoq.com/articles/rest-soap}} to a much simpler and well defined representational state architecture and are now called RESTful API's. These systems usually communicate over HTTP with the same HTTP verbs (GET, POST, PUT, PATCH, DELETE) used by browsers to render web pages.
 
 \subsection{REST}
 \label{sub-sec:rest}
