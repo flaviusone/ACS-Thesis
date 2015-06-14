@@ -1,14 +1,36 @@
 \chapter{Introduction}
 \label{chapter:intro}
 
+\section{Objectives}
+\label{sec:objectives}
+
+The Dynamic Webform Builder project started out as an idea at Hootsuite Romania and had the main goals of:
+\begin{itemize}
+
+\item Defining and maintaining a REST API and model schema in a single place (server-side)
+
+\item Auto-exploring the resource and auto-generating generic forms
+
+\item Creating add/edit forms with minimal client-side work (scalable UI)
+
+\item Have consistent look and experience in all forms
+
+\end{itemize}
+
 \section{Motivation}
 \label{sec:motivation}
+
+Today's web applications are split into the front-end, usually available on the client side and the back-end often described as the server-side. This division forces developers in big companies to work in specialized teams for the front -end and the back-end development. Ideally developers wish that the front-end and the back-end of the application are agnostic of each other, therefore excluding further problems raised by integration conflicts. Avoiding these kind of conflicts will speed up the development process and therefore generating more profit for the company.
+
+For a front-end application to be agnostic of it's back-end it should be able to auto explore a given API endpoint that may change over time. Also the front-end should be able to auto-generate UI components regardless of the data type and structure retrieved from the server.
+
+Therefore this project aims to demonstrate that it is possible to have auto-exploration and auto-generation in a front-end application that is independent of the data changes from the back-end server.
 
 
 \section{Background}
 \label{sec:background}
 
-In this section we will describe the base concepts that are used across this thesis. Therefore we will start by describing the concept of a web service in section \ref{sub-sec:web-service} followed by explaining the base concepts behind the REST software architecture in \ref{sub-sec:rest} and it's HATEOAS constraint described in \ref{sub-sec:hateoas}.
+In this section we will describe the base concepts that are used across this thesis. Therefore we will start by describing the concept of a Web service in section \ref{sub-sec:web-service} followed by explaining the base concepts behind the REST software architecture in \ref{sub-sec:rest} and it's HATEOAS constraint described in \ref{sub-sec:hateoas}.
 
 \subsection{Web service}
 \label{sub-sec:web-service}
