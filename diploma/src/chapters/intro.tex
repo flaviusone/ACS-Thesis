@@ -7,11 +7,11 @@
 The Dynamic Webform Builder project started out as an idea at Hootsuite Romania and had the main goals of:
 \begin{itemize}
 
-\item Defining and maintaining a REST API and model schema in a single place (server-side)
+\item Defining and maintaining a REST (Representational State Transfer) API (Application programming interface) and model schema in a single place (server-side)
 
 \item Auto-exploring the resource and auto-generating generic forms
 
-\item Creating add/edit forms with minimal client-side work (scalable UI)
+\item Creating add/edit forms with minimal client-side work (scalable user interface)
 
 \item Have consistent look and experience in all forms
 
@@ -20,7 +20,7 @@ The Dynamic Webform Builder project started out as an idea at Hootsuite Romania 
 \section{Motivation}
 \label{sec:motivation}
 
-Today's web applications are split into the front-end, usually available on the client side and the back-end often described as the server-side. This division forces developers in big companies to work in specialized teams for the front -end and the back-end development. Ideally developers wish that the front-end and the back-end of the application are agnostic of each other, therefore excluding further problems raised by integration conflicts. Avoiding these kind of conflicts will speed up the development process and therefore generating more profit for the company.
+Today's web applications are split into the front-end, usually available on the client side and the back-end often described as the server-side. This division forces developers in big companies to work in specialized teams for the front -end and the back-end development. Ideally developers wish that the front-end and the back-end of the application are agnostic of each other, therefore excluding further problems such as changing a resource URL(Uniform Resource Locator) on the server side and having to manually change it everywhere in the front-end. Avoiding these kind of conflicts will speed up the development process and therefore generating more profit for the company.
 
 For a front-end application to be agnostic of it's back-end it should be able to auto explore a given API endpoint that may change over time. Also the front-end should be able to auto-generate UI components regardless of the data type and structure retrieved from the server.
 
@@ -35,9 +35,9 @@ In this section we will describe the base concepts that are used across this the
 \subsection{Web service}
 \label{sub-sec:web-service}
 
-As the W3C states \cite{W3C}, "A Web service is a software system designed to support interoperable machine-to-machine interaction over a network. It has an interface described in a machine-processable format (specifically WSDL). Other systems interact with the Web service in a manner prescribed by its description using SOAP-messages, typically conveyed using HTTP with an XML serialization in conjunction with other Web-related standards." Therefore we can define a web service in more simpler terms as a framework for a conversation between two computers that are communicating over the web, where a client sends a request message server receives that request, processes it and returns a response message.
+As the W3C (World Wide Web Consortium) states \cite{W3C}, "A Web service is a software system designed to support interoperable machine-to-machine interaction over a network. It has an interface described in a machine-processable format (specifically WSDL). Other systems interact with the Web service in a manner prescribed by its description using SOAP-messages, typically conveyed using HTTP with an XML serialization in conjunction with other Web-related standards." Therefore we can define a web service in more simpler terms as a framework for a conversation between two computers that are communicating over the web, where a client sends a request message server receives that request, processes it and returns a response message.
 
-Interaction with web services is done typically trough HTTP. An example of web service interaction in today's web pages is described by AJAX(short for  asynchronous JavaScript and XML) requests. 	To prevent a full page transition a the browser may initiate an asynchronous request (AJAX call) asking for specific data to be rendered later(eg. rendering an email into the Gmail application). The server will send a response in the form of HTML code or just pure data encoded in XML or JSON.
+Interaction with web services is done typically trough HTTP (Hypertext Transfer Protocol). An example of web service interaction in today's web pages is described by AJAX(Asynchronous JavaScript and XML) requests. 	To prevent a full page transition a the browser may initiate an asynchronous request (AJAX call) asking for specific data to be rendered later(eg. rendering an email into the Gmail application). The server will send a response in the form of HTML (HyperText Markup Language) code or just pure data encoded in XML (EXtensible Markup Language) or JSON (JavaScript Object Notation).
 
 \subsubsection{Web API}
 \label{sub-sub-sec:web-api}
@@ -61,13 +61,9 @@ Today web API's have been moving\footnote{\url{http://www.infoq.com/articles/res
 \subsection{REST}
 \label{sub-sec:rest}
 
-
-
+Hardcore theory TODO
+\texttt{}
 \subsection{HATEOAS}
 \label{sub-sec:hateoas}
 
-
-
-\section{Objective}
-\label{sec:objective}
-
+Hardcore theory TODO

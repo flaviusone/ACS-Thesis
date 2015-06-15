@@ -1,7 +1,7 @@
 \chapter{State of the art}
 \label{chapter:state}
 
-\textbf{This is just a demo file. It should not be used as a sample for a thesis.}\\
+In this chapter we will start to describe the technologies and frameworks used for both back-end and front-end implementations, followed by presenting them as a whole in the next chapter \ref{chapter:implementation}. For serving the web-page we used Django \ref{sub-sec:django} and for delivering the and the REST API we used Tastypie \ref{sub-sec:tastypie}, the Django compatible solution. For the logic and for rendering the front-end components we used Facebook's React.js framework \ref{sub-sec:react} and also Bootstrap/Flexbox \ref{sub-sec:bootstrap} for styling.
 
 \section{Back-end Frameworks}
 \label{sec:backend}
@@ -9,7 +9,16 @@
 \subsection{Django}
 \label{sub-sec:django}
 
+For our back-end framework we used Django mainly because of it's performance, stability and the flexibility that it gives to developers. Also being a free and open source project, Django benefits of a large community support therefore having a very detailed official documentation and a vast collection of tutorials available online.
 
+Django is a web application framework written in Python with a "batteries-included" philosophy. The principle behind batteries-included is that the common functionality for building web applications should come with the framework instead of as separate libraries.
+
+Even if Django's architecture resembles an MVC (Model View Controller), its developers call it a MTV (Model Template View) framework\footnote{https://docs.djangoproject.com/en/1.8/faq/general/\#django-appears-to-be-a-mvc-framework-but-you-call-the-controller-the-view-and-the-view-the-template-how-come-you-don-t-use-the-standard-names\label{note1}}. A high level view of Django's architecture can be seen in
+\begin{itemize}
+	\item The "Model" consists of an object-relational mapper that translates data models defined in Python classes to classic relational database tables.
+	\item The "View" consists of a web templating system that handles the page rendering on the client part. This is also why it is called the "Template" instead of "View".
+	\item The "Controller" is a regular-expression-based URL dispatcher that handles the page requests. It is seen as a "View" by the developers because the callback function of the dispatcher describes which data is presented to de user.
+\end{itemize}
 
 \subsection{Tastypie}
 \label{sub-sec:tastypie}
