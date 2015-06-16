@@ -28,18 +28,25 @@ Models are represented by Python classes and contain essential fields and behavi
 
 We can see that we have two character type fields and one date type field that map to the corresponding columns in Listing~\ref{lst:model-sql}.
 
-\lstinputlisting[label={lst:model-sql},caption=Post sql table,language=SQL]{src/code/python/examplesql.sql}
+\lstinputlisting[label={lst:model-sql},caption=Post SQL table,language=SQL]{src/code/python/examplesql.sql}
 
 \subsubsection{Template}
 \label{sub-sub-sec:template}
 
-The "Template" consists of a web templating system that handles the page rendering on the client part. This is also why it is called the "Template" even if it basically resembles the MVC "View" component. A Django template is composed of the static parts of the desired HTML output as well as special syntax that describes describing how dynamic content will be inserted.
+The "Template" consists of a web templating system that handles the page rendering on the client part. This is also why it is called the "Template" even if it basically resembles the MVC "View" component. A Django template is composed of the static parts of the desired HTML output as well as special syntax that describes describing how dynamic content will be inserted. An example of rendering a poll question with it's available choices can be seen in Listing~\ref{lst:template-example}
+
+\lstinputlisting[label={lst:template-example},caption=Using Django templates,language=html]{src/code/html/template-example.html}
+
+We can see that the Django that trough \texttt{\{\{var\}\}} specific variables are inserted into the HTML that will be generated, like the question text or the choices text. Also, Django provides specific built-in template tags like \texttt{\{\% for in \%\}} for looping over arrays, handling conditional statements, filtering etc.
 
 \subsubsection{View}
 \label{sub-sub-sec:view}
 
-The "View" is a regular-expression-based URL dispatcher that maps the URL to a view function and calls it. The view function can also check if a cached version of the page is available and skip the following steps. The component was named "View" by the developers because the callback function of the dispatcher describes which data is presented to de user. The "View" can be seen as an MVC "Controller" because the view functions performs the requested action which usually implies reading or writing to the database. 
+The "View" is a regular-expression-based URL dispatcher that maps the URL to a view function and calls it. The view function can also check if a cached version of the page is available and skip the following steps. The component was named "View" by the developers because the callback function of the dispatcher describes which data is presented to de user. The "View" can be seen as an MVC "Controller" because the view functions performs the requested action which usually implies reading or writing to the database. An example of a urls.py file can be seen in Listing~\ref{lst:view-example}.
 
+\lstinputlisting[label={lst:view-example},caption=Urls.py file,language=Python]{src/code/python/view-example.py}
+
+We can see that each URL pattern is matched via the regular expression set as the first parameter of the \texttt{url()} function (eg. \texttt{r'\^{}\$'}) and calls the function callback (the second parameter) with following optional parameters. In the first case the regular-expression will match the empty string with the index function from the views module.
 
 
 
@@ -56,23 +63,26 @@ Tastypie\footnote{\url{http://tastypieapi.org/}} is a webservice API framework f
 	\item Well-tested and well-documented
 \end{itemize}
 
-Tastypie's basic functionality is taking data represented in the models (described by python classes) and serializing it and sending the resulted data to the client that consumes the API.
+Tastypie's basic functionality is taking data represented in the Django models (described by python classes), serializing it and sending the resulted data to the client that consumes the API. During the request/response cycle, Tastypie uses a large portion of the standard Django bahaviour and adds on top of that a ,,hydrate/dehydrate'' cycle. An example for requesting data from a sample endpoint like \texttt{api/v1/author/?format=json} can be summarized as follows:
 
-
-\subsubsection{API}
-
-
-\subsubsection{Schema}
-
+\begin{itemize}
+	\item The Django URL dispatcher checks the requested URL in the \texttt{Resource.urls} and on a match for the list view calls \texttt{Resource.dispatch}
+	\item The \texttt{dispatch} method checks if the request is valid by establishing if the used HTTP method is valid, if the requesting user is authenticated and authorized and if the resource has a handle  request method. If all checks are passed the \texttt{dispatch} calls \texttt{get\_list}.
+	\item The \texttt{get\_list} method fetches the available ModelResource objects, sorts them and applies \texttt{full\_dehydrate} on each one of them.
+	\item The \texttt{full\_dehydrate} has the purpose of taking the data from the ModelResource objects and transforming it into a much simpler Tastypie specific data structure, usually a dictionary of simple data types and. Therefore the method applies each object's  \texttt{dehydrate} method to get a simpler data structure for serializing. The process is similar on  POST/PUT/PATCH requests where the \texttt{hydrate} method is applied instead, hence the ,,hydrate/dehydrate'' cycle.
+	\item In the end, the \texttt{create\_response} method serializes the data given to it in the requested format (XML, JSON) and returns HttpResponse (200 OK) with the resulted data.
+\end{itemize}
 
 
 \section{Frontend-end Frameworks}
 \label{sec:frontend}
 
-\subsection{Bootstrap}
+\subsection{React.js}
+\label{sub-sec:react}
+
+\subsection{Bootstrap/Flex CSS}
 \label{sub-sec:bootstrap}
 
 
-\subsection{React.js}
-\label{sub-sec:react}
+
 
