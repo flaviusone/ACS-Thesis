@@ -1,7 +1,7 @@
 \chapter{State of the art}
 \label{chapter:state}
 
-In this chapter we will start to describe the technologies and frameworks used for both back-end and front-end implementations, followed by presenting them as a whole in the next chapter \ref{chapter:implementation}. For serving the web-page we used Django \ref{sub-sec:django} and for delivering the and the REST API we used Tastypie \ref{sub-sec:tastypie}, the Django compatible solution. For the logic and for rendering the front-end components we used Facebook's React.js framework \ref{sub-sec:react} and also Bootstrap/Flexbox \ref{sub-sec:bootstrap} for styling.
+In this chapter we will start to describe the technologies and frameworks used for both back-end and front-end implementations, followed by presenting how they interact as a system in the next chapter~\ref{chapter:implementation}. For serving the web-page we used Django~\ref{sub-sec:django} and for delivering the and the REST API we used a Django compatible extension called Tastypie~\ref{sub-sec:tastypie}, the Django compatible solution. For rendering the front-end components we used Facebook's React.js framework~\ref{sub-sec:react} and also Bootstrap/Flexbox~\ref{sub-sec:bootstrap} for styling.
 
 \section{Back-end Frameworks}
 \label{sec:backend}
@@ -9,19 +9,55 @@ In this chapter we will start to describe the technologies and frameworks used f
 \subsection{Django}
 \label{sub-sec:django}
 
-For our back-end framework we used Django mainly because of it's performance, stability and the flexibility that it gives to developers. Also being a free and open source project, Django benefits of a large community support therefore having a very detailed official documentation and a vast collection of tutorials available online.
+For our back-end framework we used Django mainly because of it's performance, scalability, stability and the flexibility that it gives to developers. Being a free and open source project, Django benefits of a large community support therefore having an extensive official documentation, a vast collection of tutorials available online and many more extensions available to install trough the built in PIP (Python Package Index) installer.
 
-Django is a web application framework written in Python with a "batteries-included" philosophy. The principle behind batteries-included is that the common functionality for building web applications should come with the framework instead of as separate libraries.
+Django is a web application framework written in Python with a ``batteries-included'' philosophy. The principle behind batteries-included is that the common functionality for building web applications should come with the framework instead of as separate libraries. Therefore Django can provide developers with all the tools needed to put up a web page. It has a built in relational database for storing information, a templating system for rendering pages and a URL dispatcher for resolving page requests. The framework also comes with more advanced features like XSS (Cross site scripting), CSRF (Cross site request forgery) and SQL Injection protection but also an authentication and admin panel modules.
 
-Even if Django's architecture resembles an MVC (Model View Controller), its developers call it a MTV (Model Template View) framework\footnote{https://docs.djangoproject.com/en/1.8/faq/general/\#django-appears-to-be-a-mvc-framework-but-you-call-the-controller-the-view-and-the-view-the-template-how-come-you-don-t-use-the-standard-names\label{note1}}. A high level view of Django's architecture can be seen in
-\begin{itemize}
-	\item The "Model" consists of an object-relational mapper that translates data models defined in Python classes to classic relational database tables.
-	\item The "View" consists of a web templating system that handles the page rendering on the client part. This is also why it is called the "Template" instead of "View".
-	\item The "Controller" is a regular-expression-based URL dispatcher that handles the page requests. It is seen as a "View" by the developers because the callback function of the dispatcher describes which data is presented to de user.
-\end{itemize}
+Django's architecture is described by the developers\footnote{https://docs.djangoproject.com/en/1.8/faq/general/\#django-appears-to-be-a-mvc-framework-but-you-call-the-controller-the-view-and-the-view-the-template-how-come-you-don-t-use-the-standard-names\label{note1}} as a MTV, which stands for ``Model-Template-View,, even if it closely resembles a classic MVC (Model View Controller) pattern which many may be familiar with. A high level view of Django's architecture can be seen in \labelindexref{Figure}{img:django-arch}.
+
+\fig[scale=0.5]{src/img/Django-Arch.png}{img:django-arch}{Django architecture \cite{django-arch} }
+
+\subsubsection{Model}
+\label{sub-sub-sec:model}
+
+The "Model" consists of an object-relational mapper that translates data models defined in Python classes to classic relational database tables. Django's default relational database management system is SQLite.
+
+Models are represented by Python classes and contain essential fields and behaviors of the stored data and represent the single source of information about that data. Every class inherits the \textbf{django.db.models.Model} and each model attribute represents a database field. An very basic example can be seen in Listing~\ref{lst:model-py}.
+
+\lstinputlisting[label={lst:model-py},caption=Post model class,language=Python]{src/code/python/modelexample.py}
+
+We can see that we have two character type fields and one date type field that map to the corresponding columns in Listing~\ref{lst:model-sql}.
+
+\lstinputlisting[label={lst:model-sql},caption=Post sql table,language=SQL]{src/code/python/examplesql.sql}
+
+\subsubsection{Template}
+\label{sub-sub-sec:template}
+
+The "Template" consists of a web templating system that handles the page rendering on the client part. This is also why it is called the "Template" even if it basically resembles the MVC "View" component. A Django template is composed of the static parts of the desired HTML output as well as special syntax that describes describing how dynamic content will be inserted.
+
+\subsubsection{View}
+\label{sub-sub-sec:view}
+
+The "View" is a regular-expression-based URL dispatcher that maps the URL to a view function and calls it. The view function can also check if a cached version of the page is available and skip the following steps. The component was named "View" by the developers because the callback function of the dispatcher describes which data is presented to de user. The "View" can be seen as an MVC "Controller" because the view functions performs the requested action which usually implies reading or writing to the database. 
+
+
+
 
 \subsection{Tastypie}
 \label{sub-sec:tastypie}
+
+Tastypie\footnote{\url{http://tastypieapi.org/}} is a webservice API framework for Django. It provides a convenient, yet powerful and highly customizable abstraction for creating REST-style interfaces. Like Django, Tastypie is an open source, community backed project. Some of it's main features are:
+
+\begin{itemize}
+	\item Full GET/POST/PUT/DELETE/PATCH support
+	\item Designed to be extended at every turn
+	\item Includes a variety of serialization formats (JSON/XML/YAML/bplist)
+	\item HATEOAS by default
+	\item Well-tested and well-documented
+\end{itemize}
+
+Tastypie's basic functionality is taking data represented in the models (described by python classes) and serializing it and sending the resulted data to the client that consumes the API.
+
 
 \subsubsection{API}
 

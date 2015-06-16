@@ -6,15 +6,15 @@
 
 The Dynamic Webform Builder project started out as an idea at Hootsuite Romania and had the main goals of:
 \begin{itemize}
-
-\item Defining and maintaining a REST (Representational State Transfer) API (Application programming interface) and model schema in a single place (server-side)
-
-\item Auto-exploring the resource and auto-generating generic forms
-
-\item Creating add/edit forms with minimal client-side work (scalable user interface)
-
-\item Have consistent look and experience in all forms
-
+	
+	\item Defining and maintaining a REST (Representational State Transfer) API (Application programming interface) and model schema in a single place (server-side)
+	
+	\item Auto-exploring the resource and auto-generating generic forms
+	
+	\item Creating add/edit forms with minimal client-side work (scalable user interface)
+	
+	\item Have consistent look and experience in all forms
+	
 \end{itemize}
 
 \section{Motivation}
@@ -30,14 +30,14 @@ Therefore this project aims to demonstrate that it is possible to have auto-expl
 \section{Background}
 \label{sec:background}
 
-In this section we will describe the base concepts that are used across this thesis. Therefore we will start by describing the concept of a Web service in section \ref{sub-sec:web-service} followed by explaining the base concepts behind the REST software architecture in \ref{sub-sec:rest} and it's HATEOAS constraint described in \ref{sub-sec:hateoas}.
+In this section we will describe the base concepts that are used across this thesis. Therefore we will start by describing the concept of a Web service in section~\ref{sub-sec:web-service} followed by explaining the base concepts behind the REST software architecture in~\ref{sub-sec:rest} and it's HATEOAS constraint described in~\ref{sub-sec:hateoas}.
 
 \subsection{Web service}
 \label{sub-sec:web-service}
 
-As the W3C (World Wide Web Consortium) states \cite{W3C}, "A Web service is a software system designed to support interoperable machine-to-machine interaction over a network. It has an interface described in a machine-processable format (specifically WSDL). Other systems interact with the Web service in a manner prescribed by its description using SOAP-messages, typically conveyed using HTTP with an XML serialization in conjunction with other Web-related standards." Therefore we can define a web service in more simpler terms as a framework for a conversation between two computers that are communicating over the web, where a client sends a request message server receives that request, processes it and returns a response message.
+As the W3C (World Wide Web Consortium) states \cite{W3C}, ``A Web service is a software system designed to support interoperable machine-to-machine interaction over a network. It has an interface described in a machine-processable format (specifically WSDL). Other systems interact with the Web service in a manner prescribed by its description using SOAP-messages, typically conveyed using HTTP with an XML serialization in conjunction with other Web-related standards.'' Therefore we can define a web service in more simpler terms as a framework for a conversation between two computers that are communicating over the web, where a client sends a request message server receives that request, processes it and returns a response message.
 
-Interaction with web services is done typically trough HTTP (Hypertext Transfer Protocol). An example of web service interaction in today's web pages is described by AJAX(Asynchronous JavaScript and XML) requests. 	To prevent a full page transition a the browser may initiate an asynchronous request (AJAX call) asking for specific data to be rendered later(eg. rendering an email into the Gmail application). The server will send a response in the form of HTML (HyperText Markup Language) code or just pure data encoded in XML (EXtensible Markup Language) or JSON (JavaScript Object Notation).
+Interaction with web services is done typically trough HTTP (Hypertext Transfer Protocol). An example of web service interaction in today's web pages is described by AJAX(Asynchronous JavaScript and XML) requests.   To prevent a full page transition a the browser may initiate an asynchronous request (AJAX call) asking for specific data to be rendered later(eg. rendering an email into the Gmail application). The server will send a response in the form of HTML (HyperText Markup Language) code or just pure data encoded in XML (EXtensible Markup Language) or JSON (JavaScript Object Notation).
 
 \subsubsection{Web API}
 \label{sub-sub-sec:web-api}
@@ -52,8 +52,8 @@ A Web API defines both the server-side API as well as the client browser API and
 
 According to the W3C \cite{W3C} we can identify two major classes:
 \begin{itemize}
-\item REST-compliant Web services, in which the primary purpose of the service is to manipulate representations of Web resources using a uniform set of stateless operations.
-\item Arbitrary Web services, in which the service may expose an arbitrary set of operations. 
+	\item REST-compliant Web services, in which the primary purpose of the service is to manipulate representations of Web resources using a uniform set of stateless operations.
+	\item Arbitrary Web services, in which the service may expose an arbitrary set of operations. 
 \end{itemize}
 
 Today web API's have been moving\footnote{\url{http://www.infoq.com/articles/rest-soap}} to a much simpler and well defined representational state architecture and are now called RESTful API's. These systems usually communicate over HTTP with the same HTTP verbs (GET, POST, PUT, PATCH, DELETE) used by browsers to render web pages.
