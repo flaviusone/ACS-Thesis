@@ -102,6 +102,7 @@
 \newcommand{\VARauthor} {}
 \newcommand{\VARdate} {}
 \newcommand{\VARadviser} {}
+\newcommand{\VARcoadviser} {}
 \newcommand{\VARtitleen} {}
 \newcommand{\VARtitlero} {}
 \newcommand{\VARtitlefooteren} {}
@@ -110,6 +111,7 @@
 \renewcommand{\author}[1]{ \renewcommand{\VARauthor}{#1} }
 \renewcommand{\date}[1]{ \renewcommand{\VARdate}{#1} }
 \newcommand{\adviser}[1]{ \renewcommand{\VARadviser}{#1} }
+\newcommand{\coadviser}[1]{ \renewcommand{\VARcoadviser}{#1} }
 \newcommand{\titleen}[1]{ \renewcommand{\VARtitleen}{#1} }
 \newcommand{\titlero}[1]{ \renewcommand{\VARtitlero}{#1} }
 \newcommand{\titlefooteren}[1]{ \renewcommand{\VARtitlefooteren}{#1} }
