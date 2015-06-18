@@ -1,7 +1,7 @@
 \chapter{State of the art}
 \label{chapter:state}
 
-In this chapter we will start to describe the technologies and frameworks used for both back-end and front-end implementations, followed by presenting how they interact as a system in the next chapter~\ref{chapter:implementation}. For serving the web-page we used Django~\ref{sub-sec:django} and for delivering the and the REST API we used a Django compatible extension called Tastypie~\ref{sub-sec:tastypie}, the Django compatible solution. For rendering the front-end components we used Facebook's React.js framework~\ref{sub-sec:react} and also Bootstrap/Flexbox~\ref{sub-sec:bootstrap} for styling.
+In this chapter we will start to describe the technologies and frameworks used for both back-end and front-end implementations, followed by presenting how they interact as a system in the next chapter~\ref{chapter:implementation}. For serving the web-page we used Django~\ref{sub-sec:django} and for delivering the and the REST API we used a Django compatible extension called Tastypie~\ref{sub-sec:tastypie}, the Django compatible solution. For the display logic and for rendering the front-end components we used Facebook's React.js framework~\ref{sub-sec:react} and also Bootstrap/Flexbox~\ref{sub-sec:bootstrap} for styling.
 
 \section{Back-end Frameworks}
 \label{sec:backend}
@@ -15,7 +15,7 @@ Django is a web application framework written in Python with a ``batteries-inclu
 
 Django's architecture is described by the developers\footnote{https://docs.djangoproject.com/en/1.8/faq/general/\#django-appears-to-be-a-mvc-framework-but-you-call-the-controller-the-view-and-the-view-the-template-how-come-you-don-t-use-the-standard-names\label{note1}} as a MTV, which stands for ``Model-Template-View,, even if it closely resembles a classic MVC (Model View Controller) pattern which many may be familiar with. A high level view of Django's architecture can be seen in \labelindexref{Figure}{img:django-arch}.
 
-\fig[scale=0.5]{src/img/Django-Arch.png}{img:django-arch}{Django architecture \cite{django-arch} }
+\fig[scale=0.3]{src/img/django-arch2.png}{img:django-arch}{Django architecture}
 
 \subsubsection{Model}
 \label{sub-sub-sec:model}
@@ -77,10 +77,27 @@ Tastypie's basic functionality is taking data represented in the Django models (
 \section{Frontend-end Frameworks}
 \label{sec:frontend}
 
-\subsection{React.js}
+\subsection{React}
 \label{sub-sec:react}
 
-\todo{Describe the React framework}
+``React (React.js) is a JavaScript library for creating user interfaces.''\footnote{\label{why-react}\url{http://facebook.github.io/react/docs/why-react.html}} Built at Facebook and Instagram, and later open-sourced to the community (2013), React renders UI components and responds to user events, thus making it resemble the ,,View'' component in the MVC architecture style. React aims to solve the problem of ``building large applications with data that changes over time''\textsuperscript{\ref{why-react}}.
+
+The building blocks of React are its \textbf{reusable components}. What makes them so special is the ability to store state and data to always keep in sync with the UI. As Pete Hunt often says in his talks ``Data changing over time is the root of all evil''\footnote{\url{http://endot.org/notes/2014-01-30-react-rethinking-best-practices/}}, strengthening the idea that the main problem of UI design is knowing in what state it is at a moment in time. By encapsulating state in the components developers were able to reduce coupling and increase cohesion. An example of how a react component works can be seen in \labelindexref{Listing}{lst:simple-react-component}.
+
+\lstinputlisting[label={lst:simple-react-component},caption=Simple react component,language=js]{src/code/js/component-demo.js}
+
+
+\todo{Insert listing here}
+
+\todo{Talk about listing explaining how the component works}
+
+\todo{segway into how react works}
+
+\todo{Insert diagram of how react works}
+
+\todo{Talk about the 4 main parts (bullets)?}
+
+\todo{Isert diagram of how virtual dom works}
 
 \subsection{Bootstrap/Flexbox}
 \label{sub-sec:bootstrap}
@@ -94,7 +111,7 @@ Bootstrap is a powerful front-end framework created at Twitter by Mark Otto and 
 
 With Bootstrap we can simply structure the DOM with components like Panels by setting custom classes on the elements. An example can be seen in \labelindexref{Listing}{lst:bootstrap} and the resulted component in \labelindexref{Figure}{img:bootstrap-panel}.
 
-\lstinputlisting[label={lst:bootstrap},caption=Panel with title ,language=Html]{src/code/html/panel.html}
+\lstinputlisting[label={lst:bootstrap},caption=Panel with title ,language=html]{src/code/html/panel.html}
 
 \fig[scale=0.5]{src/img/bootstrap-panel.png}{img:bootstrap-panel}{Panel with title}
 
@@ -106,12 +123,14 @@ The Flexbox Layout (Flexible Box) module was built in the CSS3 standard, with th
 
 In the flex layout model, the children of a flex container can be laid out in any direction, and can “flex” their sizes, either growing to fill unused space or shrinking to avoid overflowing the parent\cite{flexbox}. An overview of the flex container can be seen in \labelindexref{Figure}{img:flexbox}.
 
-\fig[scale=0.5]{src/img/flexbox.png}{img:flexbox}{Flex container\cite{flexbox} }
+\fig[scale=0.4]{src/img/flexbox-remake.png}{img:flexbox}{Flex container}
 
 We can see the main flex container being populated by flex items. In the flex layout the items will be laid out following either the \texttt{main axis} (from \texttt{main-start} to \texttt{main-end}) or the \texttt{cross axis} (from \texttt{cross-start} to \texttt{cross-end}).
 
-The container has a collection of properties for laying out the items like: \texttt{flex-direction, flex-wrap, flex-flow, align-content, align-items, justify-content} which can be used for item layout and alignment. An example using some of theese can be seen in \labelindexref{Figure}{img:flexbox2} presented by the W3C specification \cite{flexbox}.
+The container has a collection of properties for laying out the items like: \texttt{flex-direction, flex-wrap, flex-flow, align-content, align-items, justify-content} which can be used for item layout and alignment. An example using some of theese can be seen in \labelindexref{Listing}{lst:flex-flow} and \labelindexref{Figure}{img:flexbox2}.
 
-\fig[scale=0.5]{src/img/flexbox2.png}{img:flexbox2}{Flexbox usage example \cite{flexbox} }
+\lstinputlisting[label={lst:flex-flow},caption=Flexbox flex-flow usage ,language=html]{src/code/html/flex-flow.html}
 
-The \texttt{flex-flow} property is a shorthand for \texttt{flex-direction} and \texttt{flex-wrap} properties. It first establishes the main axis and direction of the layout (\texttt{row-reverse}), and sets the items to wrap if they don't fit on the same row in the upwards direction (\texttt{upwards}).
+\fig[scale=0.25]{src/img/flexbox-flex-flow.png}{img:flexbox2}{Flex-flow usage result}
+
+The \texttt{flex-flow} property is a shorthand for \texttt{flex-direction} and \texttt{flex-wrap} properties. It first establishes the main axis and direction of the layout (\texttt{row-reverse}), the opposite of inline direction and sets the items to wrap if they don't fit on the same row in the upwards direction (\texttt{upwards}).
