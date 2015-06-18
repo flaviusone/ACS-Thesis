@@ -11,4 +11,4 @@ var InputComponent = React.createClass({
     );
   }
 });
-React.render(<FormBox val="Default value" />, document.getElementById('content'));
+React.render(<InputComponent val="Default value" />, document.getElementById('content'));
