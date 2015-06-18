@@ -1,7 +1,7 @@
-\chapter{State of the art}
+\chapter{State of the Art}
 \label{chapter:state}
 
-In this chapter we will start to describe the technologies and frameworks used for both back-end and front-end implementations, followed by presenting how they interact as a system in the next chapter~\ref{chapter:implementation}. For serving the web-page we used Django~\ref{sub-sec:django} and for delivering the and the REST API we used a Django compatible extension called Tastypie~\ref{sub-sec:tastypie}, the Django compatible solution. For the display logic and for rendering the front-end components we used Facebook's React.js framework~\ref{sub-sec:react} and also Bootstrap/Flexbox~\ref{sub-sec:bootstrap} for styling.
+In this chapter we start to describe the technologies and frameworks used for both back-end and front-end implementations, followed by presenting how they interact as a system in the next chapter~\ref{chapter:implementation}. For serving the web-page we used Django~\ref{sub-sec:django} and for delivering the and the REST API we used a Django compatible extension called Tastypie~\ref{sub-sec:tastypie}, the Django compatible solution. For the display logic and for rendering the front-end components we used Facebook's React.js framework~\ref{sub-sec:react} and also Bootstrap/Flexbox~\ref{sub-sec:bootstrap} for styling.
 
 \section{Back-end Frameworks}
 \label{sec:backend}
@@ -13,7 +13,7 @@ For our back-end framework we used Django mainly because of it's performance, sc
 
 Django is a web application framework written in Python with a ``batteries-included'' philosophy. The principle behind batteries-included is that the common functionality for building web applications should come with the framework instead of as separate libraries. Therefore Django can provide developers with all the tools needed to put up a web page. It has a built in relational database for storing information, a templating system for rendering pages and a URL dispatcher for resolving page requests. The framework also comes with more advanced features like XSS (Cross site scripting), CSRF (Cross site request forgery) and SQL Injection protection but also an authentication and admin panel modules.
 
-Django's architecture is described by the developers\footnote{https://docs.djangoproject.com/en/1.8/faq/general/\#django-appears-to-be-a-mvc-framework-but-you-call-the-controller-the-view-and-the-view-the-template-how-come-you-don-t-use-the-standard-names\label{note1}} as a MTV, which stands for ``Model-Template-View,, even if it closely resembles a classic MVC (Model View Controller) pattern which many may be familiar with. A high level view of Django's architecture can be seen in \labelindexref{Figure}{img:django-arch}.
+Django's architecture is described by the developers\footnote{https://docs.djangoproject.com/en/1.8/faq/general/\#django-appears-to-be-a-mvc-framework-but-you-call-the-controller-the-view-and-the-view-the-template-how-come-you-don-t-use-the-standard-names\label{note1}} as a MTV, which stands for ``Model-Template-View,, even if it closely resembles a classic MVC (Model View Controller) pattern which many may be familiar with. A high level view of Django's architecture is shown in \labelindexref{Figure}{img:django-arch}.
 
 \fig[scale=0.3]{src/img/django-arch2.png}{img:django-arch}{Django architecture}
 
@@ -22,18 +22,18 @@ Django's architecture is described by the developers\footnote{https://docs.djang
 
 The "Model" consists of an object-relational mapper that translates data models defined in Python classes to classic relational database tables. Django's default relational database management system is SQLite.
 
-Models are represented by Python classes and contain essential fields and behaviors of the stored data and represent the single source of information about that data. Every class inherits the \textbf{django.db.models.Model} and each model attribute represents a database field. An very basic example can be seen in \labelindexref{Listing}{lst:model-py}.
+Models are represented by Python classes and contain essential fields and behaviors of the stored data and represent the single source of information about that data. Every class inherits the \textbf{django.db.models.Model} and each model attribute represents a database field. We present a  very basic example in \labelindexref{Listing}{lst:model-py}.
 
 \lstinputlisting[label={lst:model-py},caption=Post model class,language=Python]{src/code/python/modelexample.py}
 
-We can see that we have two character type fields and one date type field that map to the corresponding columns in \labelindexref{Listing}{lst:model-sql}.
+We observe that there are two character type fields and one date type field that map to the corresponding columns in \labelindexref{Listing}{lst:model-sql}.
 
 \lstinputlisting[label={lst:model-sql},caption=Post SQL table,language=SQL]{src/code/python/examplesql.sql}
 
 \subsubsection{Template}
 \label{sub-sub-sec:template}
 
-The "Template" consists of a web templating system that handles the page rendering on the client part. This is also why it is called the "Template" even if it basically resembles the MVC "View" component. A Django template is composed of the static parts of the desired HTML output as well as special syntax that describes describing how dynamic content will be inserted. An example of rendering a poll question with it's available choices can be seen in \labelindexref{Listing}{lst:template-example}.
+The "Template" consists of a web templating system that handles the page rendering on the client part. This is also why it is called the "Template" even if it basically resembles the MVC "View" component. A Django template is composed of the static parts of the desired HTML output as well as special syntax that describes describing how dynamic content will be inserted. An example of rendering a poll question with it's available choices it is shown in \labelindexref{Listing}{lst:template-example}.
 
 \lstinputlisting[label={lst:template-example},caption=Using Django templates,language=html]{src/code/html/template-example.html}
 
@@ -42,7 +42,7 @@ We can see that the Django that trough \texttt{\{\{var\}\}} specific variables a
 \subsubsection{View}
 \label{sub-sub-sec:view}
 
-The "View" is a regular-expression-based URL dispatcher that maps the URL to a view function and calls it. The view function can also check if a cached version of the page is available and skip the following steps. The component was named "View" by the developers because the callback function of the dispatcher describes which data is presented to de user. The "View" can be seen as an MVC "Controller" because the view functions performs the requested action which usually implies reading or writing to the database. An example of a urls.py file can be seen in \labelindexref{Listing}{lst:view-example}.
+The "View" is a regular-expression-based URL dispatcher that maps the URL to a view function and calls it. The view function can also check if a cached version of the page is available and skip the following steps. The component was named "View" by the developers because the callback function of the dispatcher describes which data is presented to de user. The "View" can be seen as an MVC "Controller" because the view functions performs the requested action which usually implies reading or writing to the database. An example of a urls.py file is presented in \labelindexref{Listing}{lst:view-example}.
 
 \lstinputlisting[label={lst:view-example},caption=Urls.py file,language=Python]{src/code/python/view-example.py}
 
@@ -82,7 +82,7 @@ Tastypie's basic functionality is taking data represented in the Django models (
 
 ``React (React.js) is a JavaScript library for creating user interfaces.''\footnote{\label{why-react}\url{http://facebook.github.io/react/docs/why-react.html}} Built at Facebook and Instagram, and later open-sourced to the community (2013), React renders UI components and responds to user events, thus making it resemble the ,,View'' component in the MVC architecture style. React aims to solve the problem of ``building large applications with data that changes over time''\textsuperscript{\ref{why-react}}.
 
-The building blocks of React are its \textbf{reusable components}. What makes them so special is the ability to store state and data to always keep in sync with the UI. As Pete Hunt often says in his talks ``Data changing over time is the root of all evil''\footnote{\url{http://endot.org/notes/2014-01-30-react-rethinking-best-practices/}}, strengthening the idea that the main problem of UI design is knowing in what state it is at a moment in time. By encapsulating state in the components developers were able to reduce coupling and increase cohesion. An example of how a react component is structured can be seen in \labelindexref{Listing}{lst:simple-react-component}.
+The building blocks of React are its \textbf{reusable components}. What makes them so special is the ability to store state and data to always keep in sync with the UI. As Pete Hunt often says in his talks ``Data changing over time is the root of all evil''\footnote{\url{http://endot.org/notes/2014-01-30-react-rethinking-best-practices/}}, strengthening the idea that the main problem of UI design is knowing in what state it is at a moment in time. By encapsulating state in the components developers were able to reduce coupling and increase cohesion. An example of how a react component is structured is presented in \labelindexref{Listing}{lst:simple-react-component}.
 
 \lstinputlisting[label={lst:simple-react-component},caption=Simple react component,language=JavaScript]{src/code/js/component-demo.js}
 
@@ -96,7 +96,7 @@ In the above example we can see a simple component that describes an HTML input 
 
 The only data a component will work with are \texttt{props} that are  usually received from its parent component and the component \texttt{state}.
 
-We talked about the React components, the main blocks of the framework but next we will explain how React is structured and how it uses this components to modify the DOM on user actions. In \labelindexref{Figure}{img:react-arch} we can see a basic overview of the React architecture. The render cycle can be summarized in four steps:
+We talked about the React components, the main blocks of the framework but next we explain how React is structured and how it uses this components to modify the DOM on user actions. In \labelindexref{Figure}{img:react-arch} we present a basic overview of the React architecture. The render cycle can be summarized in four steps:
 \fig[scale=0.4]{src/img/react-arch.png}{img:react-arch}{React architecture}
 
 \begin{enumerate}
@@ -110,7 +110,7 @@ We talked about the React components, the main blocks of the framework but next 
 \subsubsection{Virtual DOM}
 \label{sub-sub-sec:virtual-dom}
 
-As mentioned before React holds a JavaScript in-memory representation of the web-page's DOM, called a \textbf{Virtual DOM}. As seen in \labelindexref{Figure}{img:react-dom}, React components will first mutate the Virtual DOM that will later be used for diffing. With this new Virtual DOM, the React diffing algorithm must compute the minimum number of operations needed to transform a tree into another and apply the mutation operations to the real DOM.
+As mentioned before React holds a JavaScript in-memory representation of the web-page's DOM, called a \textbf{Virtual DOM}. As shown in \labelindexref{Figure}{img:react-dom}, React components will first mutate the Virtual DOM that will later be used for diffing. With this new Virtual DOM, the React diffing algorithm must compute the minimum number of operations needed to transform a tree into another and apply the mutation operations to the real DOM.
 
 \fig[scale=0.4]{src/img/react-dom-update.png}{img:react-dom}{React DOM update}
 
@@ -134,7 +134,7 @@ For styling our HTML components we used the Bootstrap framework to achieve an ex
 
 Bootstrap is a powerful front-end framework created at Twitter by Mark Otto and Jacob Thornton\footnote{\url{https://github.com/twbs/bootstrap}}, that features a rich collection of tools for faster development and quality work. The most appreciated features are the custom HTML and CSS components, plenty javascript plugins and a popular responsive page layout system. The project is also an open-source community backed project and it's main goal is to ease web development by giving the developers the ability to have consistent styling with minimum effort.
 
-With Bootstrap we can simply structure the DOM with components like Panels by setting custom classes on the elements. An example can be seen in \labelindexref{Listing}{lst:bootstrap} and the resulted component in \labelindexref{Figure}{img:bootstrap-panel}.
+With Bootstrap we can simply structure the DOM with components like Panels by setting custom classes on the elements. An example is shown in \labelindexref{Listing}{lst:bootstrap} and the resulted component in \labelindexref{Figure}{img:bootstrap-panel}.
 
 \lstinputlisting[label={lst:bootstrap},caption=Panel with title ,language=html]{src/code/html/panel.html}
 
@@ -146,13 +146,13 @@ With Bootstrap we can simply structure the DOM with components like Panels by se
 
 The Flexbox Layout (Flexible Box) module was built in the CSS3 standard, with the main goal of trying to properly alter width/height of items inside of a container, even if their sizes were unknown, hence the "flexible box" naming.
 
-In the flex layout model, the children of a flex container can be laid out in any direction, and can “flex” their sizes, either growing to fill unused space or shrinking to avoid overflowing the parent\cite{flexbox}. An overview of the flex container can be seen in \labelindexref{Figure}{img:flexbox}.
+In the flex layout model, the children of a flex container can be laid out in any direction, and can “flex” their sizes, either growing to fill unused space or shrinking to avoid overflowing the parent\cite{flexbox}. An overview of the flex container is presented in \labelindexref{Figure}{img:flexbox}.
 
 \fig[scale=0.4]{src/img/flexbox-remake.png}{img:flexbox}{Flex container}
 
 We can see the main flex container being populated by flex items. In the flex layout the items will be laid out following either the \texttt{main axis} (from \texttt{main-start} to \texttt{main-end}) or the \texttt{cross axis} (from \texttt{cross-start} to \texttt{cross-end}).
 
-The container has a collection of properties for laying out the items like: \texttt{flex-direction, flex-wrap, flex-flow, align-content, align-items, justify-content} which can be used for item layout and alignment. An example using some of theese can be seen in \labelindexref{Listing}{lst:flex-flow} and \labelindexref{Figure}{img:flexbox2}.
+The container has a collection of properties for laying out the items like: \texttt{flex-direction, flex-wrap, flex-flow, align-content, align-items, justify-content} which can be used for item layout and alignment. An example using two of these is presented in \labelindexref{Listing}{lst:flex-flow} and \labelindexref{Figure}{img:flexbox2}.
 
 \lstinputlisting[label={lst:flex-flow},caption=Flexbox flex-flow usage ,language=html]{src/code/html/flex-flow.html}
 

@@ -30,9 +30,9 @@ Therefore this project aims to demonstrate that it is possible to have auto-expl
 \section{Background}
 \label{sec:background}
 
-In this section we will describe the base concepts that are used across this thesis. Therefore we will start by describing the concept of a Web service in section~\ref{sub-sec:web-service} followed by explaining the base concepts behind the REST software architecture in~\ref{sub-sec:rest} and it's HATEOAS constraint described in~\ref{sub-sec:hateoas}.
+In this section we describe the base concepts that are used across this thesis. Therefore we start by describing the concept of a Web service in section~\ref{sub-sec:web-service} followed by explaining the base concepts behind the REST software architecture in~\ref{sub-sec:rest} and it's HATEOAS constraint described in~\ref{sub-sec:hateoas}.
 
-\subsection{Web service}
+\subsection{Web Service}
 \label{sub-sec:web-service}
 
 As the W3C (World Wide Web Consortium) states \cite{W3C}, ``A Web service is a software system designed to support interoperable machine-to-machine interaction over a network. It has an interface described in a machine-processable format (specifically WSDL). Other systems interact with the Web service in a manner prescribed by its description using SOAP-messages, typically conveyed using HTTP with an XML serialization in conjunction with other Web-related standards.'' Therefore we can define a web service in more simpler terms as a framework for a conversation between two computers that are communicating over the web, where a client sends a request message server receives that request, processes it and returns a response message.
@@ -50,7 +50,7 @@ and resources provided by another particular software program that implements th
 
 A Web API defines both the server-side API as well as the client browser API and must impose specific elements like the message format or request syntax. Some web services may use SOAP, XML or JSON for data formatting on the request and response calls. On the client side a developer should know if the request syntax may imply using certain URI's (Uniform Resource Identifiers) and specific parameters and data types. On the server side the web service will act on different types of requests that can be associated with HTTP verbs like GET, POST, PUT, PATCH or DELETE. Again, the developer should know the format of the messages received and structure of the data including specific fields and data types.
 
-According to the W3C \cite{W3C} we can identify two major classes:
+According to the W3C \cite{W3C} we identify two major classes:
 \begin{itemize}
 	\item REST-compliant Web services, in which the primary purpose of the service is to manipulate representations of Web resources using a uniform set of stateless operations.
 	\item Arbitrary Web services, in which the service may expose an arbitrary set of operations. 
