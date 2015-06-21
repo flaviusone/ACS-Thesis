@@ -12,27 +12,89 @@ Finally in the \labelindexref{React Components}{sec:react0components} section, w
 \section{Overview}
 \label{sec:overview}
 
-%\lstinputlisting[label={lst:flex-flow},caption=Flexbox flex-flow usage ,language=html]{src/code/html/flex-flow.html}
+The web application's goal is to demonstrate that an API can be explored and UI components can be auto-generated from the data that it receives. Therefore, for this to work, we established a Django based back-end that holds the requested or modified data and we set up a REST API using Tastypie. Next we implemented our front-end in React to explore the data received from the API and generate custom components. A general overview of all the application components and how they interact is presented in \labelindexref{Figure}{img:schema-generala}. %\lstinputlisting[label={lst:flex-flow},caption=Flexbox flex-flow usage ,language=html]{src/code/html/flex-flow.html}
 
-\fig[scale=0.6]{src/img/schema-generala.png}{img:schema-genrala}{General application architecture}
+\fig[scale=0.45]{src/img/schema-generala.png}{img:schema-generala}{General application architecture}
 
-\section{Django Models}
+\begin{enumerate}
+	\item \texttt{Register} - First the Django models classes are are defined (\labelindexref{Section}{sec:django-models}) and the SQL database tables are created and populated. After that a Django Tastypie Resource is declared using the previous defined models (\labelindexref{Section}{sec:api}) and the \texttt{Register} function is called using this resource to create the API.
+	\item \texttt{Initial GET} - The UI logic uses two AJAX calls (HTTP GETs) to retrieve data and schema about specified endpoint URI, with the purpose of rendering generic components.
+	\item \texttt{Response} - The Tastypie API queries the database from the Django server and returns responses to the previous two requests. The data returned is structured as a JSON and it describes the objects that are stored at that specific endpoint. Also along with the data the APU returns the JSON Schema that describes the fields of the resource.
+	\item \texttt{GET/POST/PATCH/DELETE} - Finally the UI renders the data received from the initial GET and. Now the user can trigger browser events like deleting specific panels, adding new data or exploring and modifying existing data, thus sending the corresponding HTTP requests to the API for the updates.
+	\item \texttt{Update DB} - Once the API recieves new requests from the UI it queries the database and updates it correspondingly trough the hydrate/dehydrate cycle.
+	
+\end{enumerate}
+
+The next sections get into more detail on each of the steps described above.
+
+\section{Django Data Models}
 \label{sec:django-models}
 
-\todo{cod modele User + Post}
+For the purpose of the project we only needed a functional REST API and a way to render the main HTML page. The first step of establishing the REST API was to define the Django data models. For testing purposes we defined a \texttt{Post} entity, similar to a usual blog post, with the following properties:
+
+\begin{itemize}
+	\item \texttt{title} - The title of the post.
+	\item \texttt{author} - A related entity that describes the data about the author of the specific post.
+	\item \texttt{created\_at} - A field that describes the date and time the post was created at.
+	\item \texttt{content} - The actual text of the post.
+\end{itemize}
+
+The \texttt{author} field is important for the purpose of demonstrating the capability to explore related fields and describe them. The \texttt{author} data model is actually inherited from Django's \texttt{contrib.auth.models User} model which is composed of standard fields as: \texttt{username, email, first name, last name, date joined} and also fields that we chose to exclude trough filters like: \texttt{password, is\_active, is\_staff, is\_superuser}.
+
+In \labelindexref{Listing}{lst:post-model} we present the Django Post model class implementation. As all Django model classes, it inherits the \texttt{models.Model} class and its standard field types.
+
+\lstinputlisting[label={lst:post-model},caption=Post model class,language=Python]{src/code/python/post-model.py}
+
+Field types are classes that describe and encapsulate certain types of data. As it is presented in the listing above field types can hold additional parameters as \texttt{help\_text}, which is used to provide additional information about the field and subsequently displayed in the REST API's JSON Schema. Another optional parameter is \texttt{DateTimeField}'s \texttt{auto\_now\_add} which is set to \texttt{True} to automatically set the field to now when the object is first created.
+		
 %eventual translatarea in SQL ? desi cam useless
 
 \section{REST API}
 \label{sec:api}
 
-\todo{Cod django pt resurse}
-\todo{cod de output API}
-\todo{cod de output schema}
+The REST API set up trough Django Tastypie is the most important part of our back-end. It takes the data models described in the previous section and outputs them in a RESTful way. We will next present how we set up the API and also its resulted output.
+
+\subsection{Resources}
+\label{sub-sec:resources}
+
+Previously we described the data models for a generic blog post and its related author model. Based on those models we created API resources that are able to expose that data.
+
+\subsubsection{Post Resource}
+\label{sub-sub-sec:post-resource}
+
+In \labelindexref{Listing}{lst:cod-resursa-post} we present the implementation for the \texttt{PostResource} resource. The resource inherits the base methods from the \texttt{ModelResource} class that itself is a subclass of \texttt{Resource}, designed to work with Django’s \texttt{Models}. 
+
+\lstinputlisting[label={lst:cod-resursa-post},caption=Post resource,language=Python]{src/code/python/cod-resursa-post.py}	
+
+The inner \texttt{Meta} allows for class-level configuration of how the Resource should behave. Therefore we can set parameters like \texttt{resource\_name}, \texttt{authorization} and the most important \texttt{queryset}.The \texttt{queryset} provides the resource with the set of Django models to respond with. Also because the \texttt{author} field is a related data model we want to provide it with a \texttt{ForeignKey} to the \texttt{UserResource} to provide a link to the related URI. A more detail output of the API will be presented in
+
+In case of a related component the JSON Schema should describe the URI of the parent resource. For this, as seen in lines 11-14 in the above listing,  we overwrote the \texttt{build\_schema} method in the \texttt{Post} resource class to add another field called \texttt{resource} that would expose the \texttt{author} resource URI.
+
+
+\subsubsection{User Resource}
+\label{sub-sub-sec:user-resource}
+
+The \texttt{UserResource} follows the same design that we presented in the section before, on the \texttt{PostResource}. While it will not have a modified \texttt{build\_schema} method it will have some additional \texttt{Meta} fields. \labelindexref{Listing}{lst:cod-resursa-user} shows only what changed in the \texttt{Meta} class. For security reasons we excluded the fields like \texttt{password, is\_active, is\_staff, is\_superuser} trough the \texttt{excludes} option. The \texttt{filtering} option provides the resource with a list of fields that will accept client filtering on, in our case by \texttt{username}.
+
+\lstinputlisting[label={lst:cod-resursa-user},caption=User resource,language=Python]{src/code/python/cod-resursa-user.py}
+
+After setting up the resources we continued by setting up the API for the URL dispatcher in Django's \texttt{urls.py} file. Next, we instantiated the resources and we called the Tastypie provided constructor \texttt{Api(api\_name='v1')} with a parameter for setting an API name. In the end we called the \texttt{register()} method on the API object with both resources as parameters and we added the \texttt{url()} call in the \texttt{urlpatterns} array as follows \texttt{url(r'\^{}api/', include(v1\_api.urls))}
+
+\subsection{Data Output}
+\label{sub-sec:output}
+
+With the API properly setup we now have output on the resource specific URI, in our case \texttt{/posts/api/v1/post/?format=json}. In \labelindexref{Listing}{lst:data-resursa-post} we present a sample output of the \texttt{Post} resource (only one object displayed).
+
+\lstinputlisting[label={lst:data-resursa-post},caption= Post resource data schema,language=Java]{src/code/js/json-data-post.js}	
+
+\todo{De terminat de descris output}
+
+\todo{De mentionat si despre schema. Cod schema - e in Appendix pt ca e prea mare}
 
 \section{React Components}
 \label{sec:react0components}
 
-\todo{poza smechera cu structura componentelor}
-\todo{schema cu ce face FormBox ? flow-ul general al datelor}
-\todo{descris GenericForm}
+\todo{Poza cu structura componentelor}
+\todo{Schema cu ce face FormBox ? flow-ul general al datelor}
+\todo{Descris GenericForm}
 \todo{Descris componentele separate}

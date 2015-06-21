@@ -1,4 +1,4 @@
-CREATE TABLE post_table (
+CREATE TABLE book_table (
     "id" serial NOT NULL PRIMARY KEY,
     "author_name" varchar(30) NOT NULL,
     "text" varchar(200) NOT NULL,

@@ -1,0 +1,21 @@
+{
+   "meta":{
+      "limit":20,
+      "next":null,
+      "offset":0,
+      "previous":null,
+      "total_count":3
+   },
+   "objects":[
+      {
+         "date_joined":"2015-06-11T21:18:33.039685",
+         "email":"flaviusone@gmail.com",
+         "first_name":"Flavius",
+         "id":1,
+         "last_login":"2015-06-11T21:18:33.039685",
+         "last_name":"Tirnacop",
+         "resource_uri":"/posts/api/v1/author/1/",
+         "username":"flaviusone"
+      }
+   ]
+}
