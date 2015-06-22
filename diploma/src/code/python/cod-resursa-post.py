@@ -10,5 +10,6 @@ class PostResource(ModelResource):
 
     def build_schema(self):
         base_schema = super(ModelResource, self).build_schema()
-        base_schema['fields']['author']['resource'] = this.author.get_resource_uri()
+        base_schema['fields']['author'][
+            'resource'] = this.author.get_resource_uri()
         return base_schema

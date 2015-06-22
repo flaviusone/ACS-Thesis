@@ -98,9 +98,40 @@ The \texttt{objects} property describes an array of objects that are located at 
 Besides the data output of the \texttt{Post} resource we can also access the JSON Schema available at  \texttt{/posts/api/v1/post/schema/?format=json}. The output of this call can be found in \labelindexref{Appendix}{lst:schema-resursa-post}. The JSON Schema describes the \texttt{type} of each field that is used by the front-end to generate UI components. The standard types described by the Schema can be \texttt{string, integer, datetime} and \texttt{related}. In the case of a \texttt{related} type object the front-end logic will explore the additional \texttt{resource} parameter and display the available data. Another important field used by the front-end logic is the \texttt{readonly} attribute, that points if the object field is editable.	
 
 \section{React Components}
-\label{sec:react0components}
+\label{sec:react-components}
 
-\todo{Poza cu structura componentelor}
-\todo{Schema cu ce face FormBox ? flow-ul general al datelor}
+As we presented in the \labelindexref{Overview}{sec:overview} section, the main element of the project is the reactive UI. The interface is built to be agnostic of any changes in the back-end by generating specific components based on the data provided and the JSON Schema. In this section we will present how the React components are structured and how they work together.
+
+\subsection{Component Structure}
+\label{sub-sec:component-structure}
+
+By its nature, a web application built in React is composed of multiple reusable \texttt{React Components}. In \labelindexref{Figure}{img:generic-form} we present a simplified version of the UI component structure that describes the following elements:
+
+\fig[scale=0.45]{src/img/components.png}{img:components}{React components structure}
+
+\begin{itemize}
+	\item \texttt{<FormBox/>} - This is the main component that encapsulates all other. This component also has the main purpose of calling the AJAX requests that are called by other components that are its children.
+	\item \texttt{<Navbar/>} - This is not in fact a specific React component but its a structure composed of all the elements that form the page's navigation bar that are actually react components imported from the \texttt{react-bootstrap} package. Some of the components used include:
+	  \begin{itemize}
+	  	\item \texttt{<Navbar/>} and \texttt{<Nav/>} components, used for encapsulating the URL input form.
+	  	\item \texttt{<Input/>} component that describes a simple input form for the URL options.
+	  	\item \texttt{<ButtonInput/>} component that describes the submit button for the input form described above
+	  \end{itemize}
+	\item \texttt{<FormList/>} - This component receives an array of objects from its parent and generates and encapsulates the \texttt{<GenericForm/>} components.
+	\item \texttt{<GenericForm/>} - This represents the main component that the user interacts with. It also encapsulates components for each type of object. We will continue to present this component in further detail in  \labelindexref{Section}{sub-sec:generic-form}.
+\end{itemize}
+
+
+\subsection{Data Flow}
+\label{sub-sec:data-flow}
+
+
+\fig[scale=0.45]{src/img/data-flow.png}{img:data-flow}{Data flow}
+
+
+\subsection{Generic Form}
+\label{sub-sec:generic-form}
+
 \todo{Descris GenericForm}
+\fig[scale=0.35]{src/img/genericform.png}{img:generic-form}{GenericForm component}
 \todo{Descris componentele separate}
