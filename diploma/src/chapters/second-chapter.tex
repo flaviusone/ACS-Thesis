@@ -73,6 +73,14 @@ Tastypie's basic functionality is taking data represented in the Django models (
 	\item In the end, the \texttt{create\_response} method serializes the data given to it in the requested format (XML, JSON) and returns HttpResponse (200 OK) with the resulted data.
 \end{itemize}
 
+\subsubsection{JSON Schema}
+\label{sub-sub-sec:json-schema}
+
+Another feature of Django Tastypie is its ability to also provide a JSON Schema of a specific resource. ``JSON Schema defines the media type "application/schema+json", a JSON based format for defining the structure of JSON data. JSON Schema provides a contract for what JSON data is required for a given application and how to interact with it. JSON Schema is intended to define validation, documentation, hyperlink navigation, and interaction control of JSON data.'' \footnote{\url{http://json-schema.org/latest/json-schema-core.html}}
+
+In this project we use the JSON Schema mostly for understanding how the data is structured and act accordingly by generating the right components based on our data. A simple example of a JSON Schema usage is presented in \labelindexref{Listing}{lst:json-schema-demo}. In this example we extracted a simple object from the API used in this project to better describe the purpose of the JSON Schema.Therefore the \texttt{title} object is set with with a \texttt{string} value. The corresponding Schema provides important data about this field like, its \texttt{type},its \texttt{default} value or if the objects is editable trough the \texttt{readonly} property.
+\\
+\lstinputlisting[label={lst:json-schema-demo},caption=Simple JSON Schema,language=Java]{src/code/js/json-schema-demo.js}
 
 \section{Frontend-end Frameworks}
 \label{sec:frontend}

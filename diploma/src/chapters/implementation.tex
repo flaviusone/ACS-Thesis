@@ -74,7 +74,7 @@ In case of a related component the JSON Schema should describe the URI of the pa
 \subsubsection{User Resource}
 \label{sub-sub-sec:user-resource}
 
-The \texttt{UserResource} follows the same design that we presented in the section before, on the \texttt{PostResource}. While it will not have a modified \texttt{build\_schema} method it will have some additional \texttt{Meta} fields. \labelindexref{Listing}{lst:cod-resursa-user} shows only what changed in the \texttt{Meta} class. For security reasons we excluded the fields like \texttt{password, is\_active, is\_staff, is\_superuser} trough the \texttt{excludes} option. The \texttt{filtering} option provides the resource with a list of fields that will accept client filtering on, in our case by \texttt{username}.
+The \texttt{UserResource} follows the same design that we presented in the section before, on the \texttt{PostResource}. While it will not have a modified \texttt{build\_schema} method it will have some additional \texttt{Meta} fields. \labelindexref{Listing}{lst:cod-resursa-user} shows only what changed in the \texttt{Meta} class. For security reasons we excluded the fields like \texttt{password, is\_active, is\_staff, is\_superuser} trough the \texttt{excludes} option. The \texttt{filtering} option provides the resource with a list of fields that will accept client filtering on. In this case by setting the `\texttt{'username': ALL} option we can now use specific queries like \texttt{api/v1/author/?username=flaviusone\&format=json}.
 
 \lstinputlisting[label={lst:cod-resursa-user},caption=User resource,language=Python]{src/code/python/cod-resursa-user.py}
 
@@ -85,11 +85,17 @@ After setting up the resources we continued by setting up the API for the URL di
 
 With the API properly setup we now have output on the resource specific URI, in our case \texttt{/posts/api/v1/post/?format=json}. In \labelindexref{Listing}{lst:data-resursa-post} we present a sample output of the \texttt{Post} resource (only one object displayed).
 
-\lstinputlisting[label={lst:data-resursa-post},caption= Post resource data schema,language=Java]{src/code/js/json-data-post.js}	
+\lstinputlisting[label={lst:data-resursa-post},caption= Post resource data output,language=Java]{src/code/js/json-data-post.js}	
 
-\todo{De terminat de descris output}
+The listing above shows the return of a single object with two proprieties: \texttt{meta} and \texttt{objects}. The \texttt{meta} object provides info about the number of objects displayed by in the response. Some important parameters here are \texttt{limit} and \texttt{next} which describe how many objects can be returned in one response and what is the path for the next page of objects in case the response is too big and the system automatically splits the response into separate calls to reduce bandwidth. 
 
-\todo{De mentionat si despre schema. Cod schema - e in Appendix pt ca e prea mare}
+The \texttt{objects} property describes an array of objects that are located at the specified resource. The data is also described in JSON format, but it can also be formatted as XML by using the \texttt{?format=xml} in the request call. In the case of the \texttt{author} field the API specifies the related path to the location of the data by obeying HATEOAS principles. By further exploring this URI we get the following additional JSON object, presented in \labelindexref{Listing}{lst:json-author-1}, that further describes the author object. 
+
+
+\lstinputlisting[label={lst:json-author-1},caption= Author entry,language=Java]{src/code/js/json-author-1.js}
+
+
+Besides the data output of the \texttt{Post} resource we can also access the JSON Schema available at  \texttt{/posts/api/v1/post/schema/?format=json}. The output of this call can be found in \labelindexref{Appendix}{lst:schema-resursa-post}. The JSON Schema describes the \texttt{type} of each field that is used by the front-end to generate UI components. The standard types described by the Schema can be \texttt{string, integer, datetime} and \texttt{related}. In the case of a \texttt{related} type object the front-end logic will explore the additional \texttt{resource} parameter and display the available data. Another important field used by the front-end logic is the \texttt{readonly} attribute, that points if the object field is editable.	
 
 \section{React Components}
 \label{sec:react0components}
