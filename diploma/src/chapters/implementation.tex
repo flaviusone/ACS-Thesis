@@ -1,13 +1,13 @@
 \chapter{Implementation}
 \label{chapter:implementation}
 
-In this chapter we present the main implementation idea and how all the technologies work together, starting with the \labelindexref{Overview}{sec:overview} section.
+In this chapter we present the structure of our application and how all the technologies work together, starting with the \labelindexref{Overview}{sec:overview} section.
 
-Secondly we describe the Django data models and how they \todo{CE mai adaug aici?}
+Secondly we describe the back-end \labelindexref{Django Data Models}{sec:django-models} that we used to implement the REST API.
 
 Then we present how Tastypie uses the Django data models to generate the API resource with its corresponding schema in section \labelindexref{REST API}{sec:api}.
 
-Finally in the \labelindexref{React Components}{sec:react0components} section, we present how these work together to explore the resource from the given API URI and how they auto-generate UI components based on the received JSON data.
+Finally in the \labelindexref{React Components}{sec:react-components} section, we present how these work together to explore the resource from the given API URI and how they auto-generate UI components based on the received JSON data.
 
 \section{Overview}
 \label{sec:overview}
@@ -125,13 +125,107 @@ By its nature, a web application built in React is composed of multiple reusable
 \subsection{Data Flow}
 \label{sub-sec:data-flow}
 
+We presented in \labelindexref{Section}{sub-sec:react} the data flow within the React framework and we explained how components have \texttt{states} and \texttt{proprieties} as the main mechanism of storing and transmitting data. Next, we will describe how data flows in our application from the API trough the components and back. Based on the simplified diagram is presented in \labelindexref{Figure}{img:data-flow} we can summarize the process in the following steps:
 
-\fig[scale=0.45]{src/img/data-flow.png}{img:data-flow}{Data flow}
+\fig[scale=0.45]{src/img/data-flow.png}{img:data-flow}{Data flow inside components}
+
+\begin{enumerate}
+	\item The \texttt{FormBox} component is the center piece of communication with the REST API. On the initial render this component calls an AJAX GET to retrieve \texttt{data} and \texttt{schema} from the resource URI. The data received is structured as an object array as presented in \labelindexref{Section}{sub-sec:output}
+	\item Next the objects array and schema are passed to the \texttt{FormList} upon its rendering as \texttt{properties}.
+	\item Once the \texttt{FormList} \texttt{render()} function is called, it takes the received data and for each object it renders a \texttt{GenericForm}. The generated \texttt{GenericForm} components will also receive the \texttt{schema} along with the object data in its \texttt{proprieties}.
+	\item With the received data, the \texttt{GenericForm} components can now render the corresponding elements based on the \texttt{schema object}. After the \texttt{GenericForm} component is rendered it can now be added, deleted or edited by the user. When the user presses the submit button on the component, the new data is sent trough a callback that can look like \texttt{handleCommentEdit}. This callback is also inherited trough props from the component's parent. in this case \texttt{FormList}, that also inherits the callback from its parent \texttt{FormBox}. Therefore in the end the new data arrives at the \texttt{FormBox} component.
+	\item The last step consists of the \texttt{FormBox} component to trigger the AJAX call with the new data received from its children. The AJAX call can be of different types:
+	\begin{enumerate}
+		\item POST - If a new object is added trough a modified \texttt{GenericForm} that describes a form with empty fields that acts as an \texttt{AddForm}
+		\item DELETE - If a form is deleted by the user.
+		\item PATCH - If a form component changes its values and triggers and edit action.\\
+	\end{enumerate}
+	
+\end{enumerate}
 
 
 \subsection{Generic Form}
 \label{sub-sec:generic-form}
 
-\todo{Descris GenericForm}
+The \texttt{GenericForm} is the core component of the reactive UI. Trough its behavior the UI can auto-generate components without having a preset template from the beginning. Also trough the \texttt{GenericForm} component the UI can auto-explore and re-render further discovered data. 
+
+For the component to be able to accommodate any type of data several auxiliary components have been created. In \labelindexref{Figure}{img:generic-form} we present the internal structure of the \texttt{GenericForm} component.  
+
 \fig[scale=0.35]{src/img/genericform.png}{img:generic-form}{GenericForm component}
-\todo{Descris componentele separate}
+
+The figure shows four different components that describe the four available types in our API (\texttt{string, integer, datetime, related}). It is important to mention that these four types of data are not the only ones possible. We could also have components that describe \texttt{boolean} data or \texttt{enumeration} data. Next, we will continue to describe the structure of the four data types.
+
+The \texttt{GenericForm}'s \texttt{render} function follows a simple algorithm described in \labelindexref{Algorithm}{algo1}. It has the main purpose to return a \texttt{div} container populated with \texttt{content}. This \texttt{content} is actually an array of HTML elements returned by the specific components that form the \texttt{GenericForm} object. To initialize the \texttt{type} specific components the algorithm takes each \texttt{property} and searches for its \texttt{type} in the general \texttt{schema} object. Once the \texttt{type} is knows the proper component is initialized by receiving additional data as React \texttt{props}. These \texttt{props} include the actual \texttt{key:value} property, the \texttt{schema} object (used mainly for related objects and also for readonly objects) and the \texttt{display\_state}.
+
+The \texttt{display\_state} is a \texttt{GenericForm} state that can have two values: \texttt{show} or \texttt{edit}. This state describes if the component can be edited by the user. When a user presses the component \texttt{Edit} button the state changes from its default \texttt{show} value to \texttt{edit} and as any \texttt{setState} function call triggers a component re-render. Upon the new render the \texttt{GenericForm} component will now send the new display state for its children that will change their state accordingly.
+
+\begin{algorithm}[H]
+$content \leftarrow []$
+
+\ForEach{property in object}{
+	$type \leftarrow $ type of property extracted from the schema object
+	
+	\Switch{type}{
+		\Case{string}{
+			content.push(StringComponent(property, schema, display\_state))
+			}
+		\Case{integer}{
+			content.push(IntegerComponent(property, schema, display\_state))
+			}
+		\Case{datetime}{
+			content.push(DateTimeComponent(property, schema, display\_state))
+			}
+		\Case{related}{
+			content.push(RelatedComponent(property, schema, display\_state))
+			}
+	}
+}
+\Return content
+\label{algo1}
+\caption{GenericForm render algorithm}
+\end{algorithm}
+
+As we described until now the \texttt{GenericForm} component is a container for data components. We will now follow to present the four types of React components that we implemented within our project.
+
+\subsubsection{StringComponent}
+\label{sub-sub-sec:string}
+
+The \texttt{StringComponent} is a generic React component that has the role of displaying string type objects. The component also has two states \texttt{show} and \texttt{edit} that facilitate the user to edit it by typing into an editable \texttt{textarea}. Having a \texttt{textarea} input the component must store the current data into its \texttt{state}. Then, the \texttt{textarea} as an \texttt{onChange=\{this.handleChange\}} method applied on it that on a change event calls the \texttt{handleChange} function. This function has the role of setting the new state of the value object for the \texttt{StringComponent}.
+
+\subsubsection{IntegerComponent}
+\label{sub-sub-sec:integer}
+
+The \texttt{IntegerComponent} has a similar structure to the \texttt{StringComponent}. In our project this component is used to display the \texttt{posts} or \texttt{authors} specific \texttt{ids}. 
+
+\subsubsection{DateTimeComponent}
+\label{sub-sub-sec:date}
+
+The \texttt{DateTimeComponent} is a more complex component than the \texttt{StringComponent} or \texttt{IntegerComponent}. It receives from its parent trough its \texttt{props} a raw \texttt{date} that is usually formatted as follows \texttt{2015-06-11T14:09:00}. It then takes this value and converts it into 
+Coordinated Universal Time (UTC) and imputs it to a Bootstrap Datepicker component. The Bootstrap Datepicker component is an open source project that can be found at \footnote{\url{http://eonasdan.github.io/bootstrap-datetimepicker/}} and has the role of providing an aesthetic and user friendly interface to chose a date and time for the specific components.
+
+\subsubsection{RelatedComponent}
+\label{sub-sub-sec:related}
+
+The \texttt{RelatedComponent} is the most special and important component because it helps demonstrate that auto-exploration of an API and further generation of components can be achieved. The component initially receives the URI of the related component and also the schema object. A simplification of the algorithm behind the \texttt{RelatedComponent} is presented in \labelindexref{Algorithm}{algo2}.
+
+\begin{algorithm}[H]
+	
+	$mainResource \leftarrow $ schema.resource
+	
+	loadDataIntoDropdown(mainResource)
+	
+	\If{edit is pressed}{
+		$explore \leftarrow true$
+		
+		$exploreURI \leftarrow$ selected dropdown data
+		
+		$newData \leftarrow getDataFromServer(exploreURI)$
+		
+		$content \leftarrow $ new GenericForm(newData)
+		}
+	\Return content
+	\label{algo2}
+	\caption{RelatedComponent render algorithm}
+\end{algorithm}
+
+The first step is getting the URI from the \texttt{resource} field in the schema. As an example this URI may look like \texttt{/posts/api/v1/author/} and point to the location of all the elements that are available at the resource where the related component URI (eg. \texttt{/posts/api/v1/post/1/}) came from. With this data the component can now load it into a dropdown for the user to select if he wants which object to explore. After the desired resource was selected in the dropdown, when the user presses the \texttt{Edit} button the state changes from \texttt{explore:false} to \texttt{explore:true} and the component calls an AJAX GET request to retrieve the data (and schema) about that certain object. With the new data the component now initializes another \texttt{GenericForm} component that will render the new data as described in the previous sections. 

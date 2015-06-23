@@ -1,0 +1,17 @@
+content = []
+
+for each propriety of object do
+
+  type = type of property extracted from the schema object
+
+  switch(type)
+    case 'string'
+      content.push(StringComponent)
+    case 'Integer'
+      content.push(IntegerComponent)
+    case 'DateTime'
+      content.push(DateTimeComponent)
+    case 'Related'
+      content.push(RelatedComponent)
+
+return content
