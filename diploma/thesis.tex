@@ -1,9 +1,12 @@
 \documentclass{thesis.cs.pub.ro}
 \makeindex
 \input{src/style}
+\usepackage[linesnumbered]{algorithm2e}
+\usepackage{rotating}
+\usepackage{float}
 
 \begin{document}
-
+\nocite{*}
 \input{src/global}
 
 \begin{frontmatter} % roman numbering
@@ -33,6 +36,7 @@
 
 \appendix
 \input{src/appendix/index}
+
 
 \bibliography{src/main}
 \bibliographystyle{plain}

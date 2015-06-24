@@ -3,12 +3,22 @@
 
 In this chapter we conclude our description on this project. In the first section \labelindexref{Summary}{sec:summary} we'll do a summary of how and what we managed to prove in this paper.
 
-In the second section, \labelindexref{Further development}{sec:further-developments} we will discuss what could be developed next, based on our example described in the \labelindexref{Implementation}{chapter:implementation}
+In the second section, \labelindexref{Further development}{sec:further-developments} we will discuss what could be developed next, starting from our work described in the \labelindexref{Implementation}{chapter:implementation} chapter.
 
 \section{Summary}
 \label{sec:summary}
 
-\todo{In principiu cu bullet points}
+In the first section of the opening chapter of this, thesis we pointed out the main goals that the project wanted to achieve and that we aimed to demonstrate if it is possible to have auto-exploration and auto-generation in a back-end agnostic front-end application. Based on these ideas we will present what we managed to achieve at the end of the development period.
+
+\begin{itemize}
+	\item Set up a back-end that features Django data models that are used for exposing data in a RESTful way.
+	\item Set up a REST API and model schema in a single place (server-side) using Django Tastypie framework.
+	\item Set up a consistent looking UI that is able to auto-explore a given resource and auto-generate generic forms.
+	\item Customizing the generic forms for the user to be able to edit/delete or add them with minimal client-side work.
+	\item Laid down the base for a scalable user interface trough styling frameworks like Bootstrap and Flexbox.
+\end{itemize}
+
+I consider developing an application that requires knowledge of the full development stack (back-end and front-end) as a big accomplishment for me and for my experience as a software engineer. By having to work with state of the art technologies like React, usually not used or taught at the university courses, I had to first learn how their architecture works and only then apply them to my project.
 
 \section{Further developments}
 \label{sec:further-developments}
@@ -16,3 +26,5 @@ In the second section, \labelindexref{Further development}{sec:further-developme
 The purpose of the project was only to demonstrate that it is possible to build a front-end that is agnostic of it's back-end. Thus the relations between the data models we constructed were mostly \textbf{one-to-many} in the case of an \texttt{author} and his related \texttt{posts}. While this helps us to prove our point and have our front-end explore trough the post resource, the author that is assigned to it, we can encounter more complex cases in real life that.
 
 The next step in our implementation would be integrating \textbf{many-to-many} relations between the data entities. A concrete example in our implementation would be having multiple authors assigned to multiple posts and being able to edit the authors assigned to a post accordingly.
+
+Even if the work can be still improved by adding new relationship models or new generic type components we could pack the front-end application to work as a generic framework and later open source it to the community for further improvements.
