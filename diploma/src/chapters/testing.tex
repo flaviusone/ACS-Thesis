@@ -63,7 +63,11 @@ The \texttt{AddPanel} component (also shown in \labelindexref{Figure}{img:main-v
 \section{Resource exploration}
 \label{sec:panel-nesting}
 
-\texttt{RelatedComponents} have the ability to explore the given URI path and auto-generate more UI components based on this action. As presented in the \labelindexref{Generic Form}{sub-sec:generic-form} section, when a user presses the \texttt{Edit} button it triggers an AJAX GET call on that specific resource. Once the data is retrieved it will generate another \texttt{GenericForm} component that has all the proprieties of a normal one. This specific behavior is presented in \labelindexref{Figure}{img:nesting}.
+\texttt{RelatedComponents} have the purpose of exploring the given URI path (in our example \texttt{api/v1 /author/3/}) and auto-generating UI components based on this action. As presented in the \labelindexref{Generic Form}{sub-sec:generic-form} section, when a user presses the \texttt{Edit} button it triggers an AJAX GET call on that specific resource, thus triggering another explore cycle.
+
+Once the data is retrieved it will generate another \texttt{GenericForm} component that has all the proprieties of and functions a normal one (that hosts the initial \texttt{RelatedComponent}). This specific behavior is presented in \labelindexref{Figure}{img:nesting}.
+
+The newly generated \texttt{GenericForm} component will display data about the author that is selected in the dropdown menu. Note that the functionality of this component still hold and the user can also edit this component. If another resource is selected from the dropdown (or the \texttt{Edit} button si pressed again) menu the \texttt{RelatedComponent} will switch from the \texttt{explore=True} to \texttt{explore=False} state and the generated \texttt{GenericForm} object will dissapear. The user will then be required to press again the \texttt{Edit} button for the new resource to be explored.
 
 
 \begin{figure}[H]
