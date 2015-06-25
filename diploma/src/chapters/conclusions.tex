@@ -8,7 +8,7 @@ In the second section, \labelindexref{Further development}{sec:further-developme
 \section{Summary}
 \label{sec:summary}
 
-In the first section of the opening chapter of this, thesis we pointed out the main goals that the project wanted to achieve and that we aimed to demonstrate if it is possible to have auto-exploration and auto-generation in a back-end agnostic front-end application. Based on these ideas we will present what we managed to achieve at the end of the development period.
+In the first section of the opening chapter of this thesis, we pointed out the main goals that we wanted to achieve. Also we mentioned and that the project aimed to demonstrate if it is possible to have auto-exploration and auto-generation in a back-end agnostic front-end application. Based on these ideas we will present what we managed to achieve at the end of the development period.
 
 \begin{itemize}
 	\item Set up a back-end that features Django data models that are used for exposing data in a RESTful way.
@@ -18,12 +18,12 @@ In the first section of the opening chapter of this, thesis we pointed out the m
 	\item Laid down the base for a scalable user interface trough styling frameworks like Bootstrap and Flexbox.
 \end{itemize}
 
-I consider developing an application that requires knowledge of the full development stack (back-end and front-end) as a big accomplishment for me and for my experience as a software engineer. By having to work with state of the art technologies like React, usually not used or taught at the university courses, I had to first learn how their architecture works and only then apply them to my project.
+In conclusion, even though we had some challenges like incompatibilities between certain versions of the back-end frameworks we used, minor design bugs when learning the new React technology or code optimization in the end we managed to successfully accomplish all our objectives.
 
 \section{Further developments}
 \label{sec:further-developments}
 
-The purpose of the project was only to demonstrate that it is possible to build a front-end that is agnostic of it's back-end. Thus the relations between the data models we constructed were mostly \textbf{one-to-many} in the case of an \texttt{author} and his related \texttt{posts}. While this helps us to prove our point and have our front-end explore trough the post resource, the author that is assigned to it, we can encounter more complex cases in real life that.
+The purpose of the project was to demonstrate that it is possible to build a front-end that is agnostic of it's back-end. Thus the relations between the data models we constructed were mostly \textbf{one-to-many} in the case of an \texttt{author} and his related \texttt{posts}. While this helps us to prove our point and have our front-end explore trough the post resource, the author that is assigned to it, we can encounter more complex cases in real life that.
 
 The next step in our implementation would be integrating \textbf{many-to-many} relations between the data entities. A concrete example in our implementation would be having multiple authors assigned to multiple posts and being able to edit the authors assigned to a post accordingly.
 

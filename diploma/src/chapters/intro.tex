@@ -35,9 +35,11 @@ In this section we describe the base concepts that are used across this thesis. 
 \subsection{Web Service}
 \label{sub-sec:web-service}
 
-As the W3C (World Wide Web Consortium) states \cite{W3C}, ``A Web service is a software system designed to support interoperable machine-to-machine interaction over a network. It has an interface described in a machine-processable format (specifically WSDL). Other systems interact with the Web service in a manner prescribed by its description using SOAP-messages, typically conveyed using HTTP with an XML serialization in conjunction with other Web-related standards.'' Therefore we can define a web service in more simpler terms as a framework for a conversation between two computers that are communicating over the web, where a client sends a request message server receives that request, processes it and returns a response message.
+As the W3C (World Wide Web Consortium) states \cite{W3C}, ``A Web service is a software system designed to support interoperable machine-to-machine interaction over a network. It has an interface described in a machine-processable format (specifically Web Service Definition Language). Other systems interact with the Web service in a manner prescribed by its description using SOAP-messages, typically conveyed using HTTP with an XML serialization in conjunction with other Web-related standards.'' 
 
-Interaction with web services is done typically trough HTTP (Hypertext Transfer Protocol). An example of web service interaction in today's web pages is described by AJAX(Asynchronous JavaScript and XML) requests.   To prevent a full page transition a the browser may initiate an asynchronous request (AJAX call) asking for specific data to be rendered later(eg. rendering an email into the Gmail application). The server will send a response in the form of HTML (HyperText Markup Language) code or just pure data encoded in XML (EXtensible Markup Language) or JSON (JavaScript Object Notation).
+Therefore we can define a web service in more simpler terms as a framework for a conversation between two computers that are communicating over the web, where a client sends a request message and the server receives that request, processes it and returns a response message.
+
+Interaction with web services is done typically trough HTTP (Hypertext Transfer Protocol). An example of web service interaction in today's web pages is described by AJAX(Asynchronous JavaScript and XML) requests.   To prevent a full page transition a the browser may initiate an asynchronous request (AJAX call) asking for specific data to be rendered later(eg. rendering an email into the Gmail application). The server will send a response in the form of HTML (HyperText Markup Language) code or just pure data encoded in XML (EXtensible Markup Language) or JSON (JavaScript Object Notation) that will be used to render the requested element in page.
 
 \subsubsection{Web API}
 \label{sub-sub-sec:web-api}
@@ -61,9 +63,34 @@ Today web API's have been moving\footnote{\url{http://www.infoq.com/articles/res
 \subsection{REST}
 \label{sub-sec:rest}
 
-\todo{Hardcore theory}
+The Representational State Transfer (REST) is an architectural style for distributed hypermedia systems that  consists of a set of constraints applied to the components of the architecture.
+As Roy Fielding states in his dissertation \cite{fielding} ``REST provides a set of architectural constraints that, when applied as a whole, emphasizes scalability of component interactions, generality of interfaces, independent deployment of components, and intermediary components to reduce interaction latency, enforce security, and encapsulate legacy systems.''
+
+The elements of the REST architectural style can be summarized as follows:
+\begin{itemize}
+	\item \textbf{Data Elements} -Describes the actual data that is transfered and the information about where the data can be accessed. The REST data elements can be summarized as follows: \texttt{resource, resource identifier, representation, representation\\ metadata, resource metadata, control data}.
+	\item \textbf{Connectors} - Provide an interface for the components to communicate when requesting information from a  resource and when transferring data. The multiple connector types can be enumerated follows: \texttt{client, server, cache, resolver, tunner}.
+	\item \textbf{Components} - Are the entities that participate in a REST process. The REST components are composed of the following: \texttt{origin server, gateway, proxy, user agent}.
+\end{itemize}
+The main way REST is defined, is around its set of specific constraints. Next we will follow to present the REST architecture style formal constraints as specified by the W3C \footnote{\url{http://www.w3.org/TR/2002/WD-webarch-20020830/\#rest-constraints	}}.
+\subsubsection{Client-Server model}
+The first constraint imposes a client-server architecture. Therefore the web service consumer will send a request with a certain task and the web service will execute the task and retrieve a response if it the task was completed successfully of not. The client-server model offers the advantage of independence between the logic on both communicating entities.
+\subsubsection{Stateless protocols}
+Secondly the communication between the client and the server must be completely stateless. In other therms when a web service consumer makes a requests it must send all the necessary data for the server to complete the task. This may include authentication data or other related info. The constraint also contributes to an improvement in scalability thus it also leads to more data being sent over the network. 
+\subsubsection{Caching}
+We mentioned above that stateless design can increase network traffic. Therefore a caching mechanism has been imposed to the REST architectural style. When the web service sends a response it must label if if it can be cached by the consumer. With this constraint scalability and performance is also improved.
+\subsubsection{Uniform Interface}
+The \texttt{Uniform Interface} constraint implies that the clients and servers use the same the same interface to communicate between each other. Usually in practice this is done trough the HTTP protocol.
+\subsubsection{Layered System}
+The \texttt{Layered System} constraint allows the components to be structured as layers so that one layer can not reach past the following layer. Therefore a service consumer will not be able to see past the web service he is talking with, even if the web service has a link with another REST in the next layer. This constraint can reduce efficiency buy it improves scalability.
+\subsubsection{Code-On-Demand}
+Finally the last constraint is defined as optional and implies that clients are allowed to update their logic by requesting code from the server. This is usually achieved by web browsers trough AJAX calls and JavaScript language.
 
 \subsection{HATEOAS}
 \label{sub-sec:hateoas}
 
-\todo{Hardcore theory}
+HATEOAS (or Hypertext As The Engine Of Application State) is a constraint of the REST architecture style, that implies the client to be able to understand and interact with the web service only trough hypermedia received from it.
+
+Therefore the system will behave like a state machine where the client (consumer) will set its beginning state on the initial location (URI) and it will transition into another state by getting a link from the servers response to another location (URI). As Roy Fielding firmly states\footnote{\url{http://roy.gbiv.com/untangled/2008/rest-apis-must-be-hypertext-driven}} ``A REST API should be entered with no prior knowledge beyond the initial URI (bookmark) and set of standardized media types and from that point on, all application state transitions must be driven by client selection of server-provided choices that are present in the received representations.''
+
+The constraint solves the problem of an application being dependent of a specific API version in time. A resource may evolve in time and certain data may be represented in other forms. HATEOAS reduces coupling between client and server and alls developing of applications that are totally independent of the changes on the server.
