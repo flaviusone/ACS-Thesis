@@ -1,31 +1,31 @@
 \chapter{Implementation}
 \label{chapter:implementation}
 
-In this chapter we present the structure of our application and how all the technologies work together, starting with the \labelindexref{Overview}{sec:overview} section.
+In this chapter, we present the structure of our application and how all the technologies work together, starting with the \labelindexref{Overview}{sec:overview} section.
 
-Secondly we describe the back-end \labelindexref{Django Data Models}{sec:django-models} that we used to implement the REST API.
+Secondly, we describe the back-end \labelindexref{Django Data Models}{sec:django-models} that we used to implement the REST API.
 
-Then we present how Tastypie uses the Django data models to generate the API resource with its corresponding schema in section \labelindexref{REST API}{sec:api}.
+Then, we present how Tastypie uses the Django data models to generate the API resource with its corresponding schema in section \labelindexref{REST API}{sec:api}.
 
-Finally in the \labelindexref{React Components}{sec:react-components} section, we present how these work together to explore the resource from the given API URI and how they auto-generate UI components based on the received JSON data.
+Finally, in the \labelindexref{React Components}{sec:react-components} section, we present how these work together to explore the resource from the given API URI and how they auto-generate UI components based on the received JSON data.
 
 \section{Overview}
 \label{sec:overview}
 
-The web application's goal is to demonstrate that an API can be explored and UI components can be auto-generated from the data that it receives. Therefore, for this to work, we established a Django based back-end that holds the requested or modified data and we set up a REST API using Tastypie. Next we implemented our front-end in React to explore the data received from the API and generate custom components. A general overview of all the application components and how they interact is presented in \labelindexref{Figure}{img:schema-generala}. %\lstinputlisting[label={lst:flex-flow},caption=Flexbox flex-flow usage ,language=html]{src/code/html/flex-flow.html}
+The web application's goal is to demonstrate that an API can be explored and UI components can be auto-generated from the data that it receives. Therefore, for this to work, we established a Django based back-end that holds the requested or modified data, and a REST API using Tastypie. Next, we implemented our front-end in React to explore the data received from the API and generate custom components. A general overview of all the application components and how they interact is presented in \labelindexref{Figure}{img:schema-generala}. %\lstinputlisting[label={lst:flex-flow},caption=Flexbox flex-flow usage ,language=html]{src/code/html/flex-flow.html}
 
-\fig[scale=0.45]{src/img/schema-generala.png}{img:schema-generala}{General application architecture}
+\fig[scale=0.5]{src/img/schema-generala.png}{img:schema-generala}{General application architecture}
 
 \begin{enumerate}
-	\item \texttt{Register} - First the Django models classes are are defined (\labelindexref{Section}{sec:django-models}) and the SQL database tables are created and populated. After that a Django Tastypie Resource is declared using the previous defined models (\labelindexref{Section}{sec:api}) and the \texttt{Register} function is called using this resource to create the API.
-	\item \texttt{Initial GET} - The UI logic uses two AJAX calls (HTTP GETs) to retrieve data and schema about specified endpoint URI, with the purpose of rendering generic components.
-	\item \texttt{Response} - The Tastypie API queries the database from the Django server and returns responses to the previous two requests. The data returned is structured as a JSON and it describes the objects that are stored at that specific endpoint. Also along with the data the APU returns the JSON Schema that describes the fields of the resource.
-	\item \texttt{GET/POST/PATCH/DELETE} - Finally the UI renders the data received from the initial GET and. Now the user can trigger browser events like deleting specific panels, adding new data or exploring and modifying existing data, thus sending the corresponding HTTP requests to the API for the updates.
-	\item \texttt{Update DB} - Once the API recieves new requests from the UI it queries the database and updates it correspondingly trough the hydrate/dehydrate cycle.
+	\item \texttt{Register} - First,i the Django models classes are are defined (\labelindexref{Section}{sec:django-models}) and the SQL database tables are created and populated. After that, a Django Tastypie Resource is declared using the previous defined models (\labelindexref{Section}{sec:api}) and the \texttt{Register} function is called using this resource to create the API.
+	\item \texttt{Initial GET} - The UI logic uses two AJAX calls (HTTP GETs) to retrieve data and schema about a specified endpoint URI, with the purpose of rendering generic components.
+	\item \texttt{Response} - The Tastypie API queries the database from the Django server and returns responses to the previous two requests. The data returned is structured as a JSON and it describes the objects that are stored at that specific endpoint. Also along with the data the API returns the JSON Schema that describes the fields of the resource.
+	\item \texttt{GET/POST/PATCH/DELETE} - Finally the UI renders the data received from the initial GET. Now the user can trigger browser events like deleting specific panels, adding new data or exploring and modifying existing data, thus sending the corresponding HTTP requests to the API for the updates.
+	\item \texttt{Update DB} - Once the API recieves new requests from the UI, it queries the database and updates it correspondingly trough the hydrate/dehydrate cycle.
 	
 \end{enumerate}
 
-The next sections get into more detail on each of the steps described above.
+The following sections get into more detail on each of the steps described above.
 
 \section{Django Data Models}
 \label{sec:django-models}
@@ -39,20 +39,20 @@ For the purpose of the project we only needed a functional REST API and a way to
 	\item \texttt{content} - The actual text of the post.
 \end{itemize}
 
-The \texttt{author} field is important for the purpose of demonstrating the capability to explore related fields and describe them. The \texttt{author} data model is actually inherited from Django's \texttt{contrib.auth.models User} model which is composed of standard fields as: \texttt{username, email, first name, last name, date joined} and also fields that we chose to exclude trough filters like: \texttt{password, is\_active, is\_staff, is\_superuser}.
+The \texttt{author} field is important for the purpose of demonstrating the capability to explore related fields and describe them. The \texttt{author} data model is actually inherited from Django's \texttt{contrib.auth.models User} model, which is composed of specific fields as: \texttt{username, email, first name, last name, date joined} and also fields that we chose to exclude trough filters like: \texttt{password, is\_active, is\_staff, is\_superuser}.
 
 In \labelindexref{Listing}{lst:post-model} we present the Django Post model class implementation. As all Django model classes, it inherits the \texttt{models.Model} class and its standard field types.
 
 \lstinputlisting[label={lst:post-model},caption=Post model class,language=Python]{src/code/python/post-model.py}
 
-Field types are classes that describe and encapsulate certain types of data. As it is presented in the listing above field types can hold additional parameters as \texttt{help\_text}, which is used to provide additional information about the field and subsequently displayed in the REST API's JSON Schema. Another optional parameter is \texttt{DateTimeField}'s \texttt{auto\_now\_add} which is set to \texttt{True} to automatically set the field to now when the object is first created.
+Field types are classes that describe and encapsulate certain type of data. As it is presented in the listing above, field types can hold additional parameters like \texttt{help\_text}, which is used to provide additional information about the field and subsequently displayed in the REST API's JSON Schema. Another optional parameter is \texttt{DateTimeField}'s \texttt{auto\_now\_add} which is set to \texttt{True} to automatically initialize the field to the date when the object is first created.
 		
 %eventual translatarea in SQL ? desi cam useless
 
 \section{REST API}
 \label{sec:api}
 
-The REST API set up trough Django Tastypie is the most important part of our back-end. It takes the data models described in the previous section and outputs them in a RESTful way. We will next present how we set up the API and also its resulted output.
+The REST API set up trough Django Tastypie, is the most important part of our back-end. It takes the data models described in the previous section and outputs them in a RESTful way. We will next present how we set up the API and also its resulted output.
 
 \subsection{Resources}
 \label{sub-sec:resources}
@@ -66,7 +66,7 @@ In \labelindexref{Listing}{lst:cod-resursa-post} we present the implementation f
 
 \lstinputlisting[label={lst:cod-resursa-post},caption=Post resource,language=Python]{src/code/python/cod-resursa-post.py}	
 
-The inner \texttt{Meta} allows for class-level configuration of how the Resource should behave. Therefore we can set parameters like \texttt{resource\_name}, \texttt{authorization} and the most important \texttt{queryset}.The \texttt{queryset} provides the resource with the set of Django models to respond with. Also because the \texttt{author} field is a related data model we want to provide it with a \texttt{ForeignKey} to the \texttt{UserResource} to provide a link to the related URI. A more detail output of the API will be presented in
+The inner \texttt{Meta} class allows for class-level configuration of how the Resource should behave. Therefore, we can set parameters like \texttt{resource\_name}, \texttt{authorization} and the most important, \texttt{queryset}. The \texttt{queryset} provides the resource with the set of Django models to respond with. Also, because the \texttt{author} field is a related data model, we want to provide it with a \texttt{ForeignKey} to the \texttt{UserResource} for it to retrieve a link to the related URI. A more detail output of the API will be presented in \labelindexref{Section}{sub-sec:output}
 
 In case of a related component the JSON Schema should describe the URI of the parent resource. For this, as seen in lines 11-14 in the above listing,  we overwrote the \texttt{build\_schema} method in the \texttt{Post} resource class to add another field called \texttt{resource} that would expose the \texttt{author} resource URI.
 
@@ -78,7 +78,7 @@ The \texttt{UserResource} follows the same design that we presented in the secti
 
 \lstinputlisting[label={lst:cod-resursa-user},caption=User resource,language=Python]{src/code/python/cod-resursa-user.py}
 
-After setting up the resources we continued by setting up the API for the URL dispatcher in Django's \texttt{urls.py} file. Next, we instantiated the resources and we called the Tastypie provided constructor \texttt{Api(api\_name='v1')} with a parameter for setting an API name. In the end we called the \texttt{register()} method on the API object with both resources as parameters and we added the \texttt{url()} call in the \texttt{urlpatterns} array as follows \texttt{url(r'\^{}api/', include(v1\_api.urls))}
+After setting up the resources, we continued by setting up the API for the URL dispatcher in Django's \texttt{urls.py} file. Next, we instantiated the resources and we called the Tastypie provided constructor \texttt{Api(api\_name='v1')} with a parameter for setting an API name. In the end we called the \texttt{register()} method on the API object with both resources as parameters and we added the \texttt{url()} call in the \texttt{urlpatterns} array as follows \texttt{url(r'\^{}api/', include(v1\_api.urls))}
 
 \subsection{Data Output}
 \label{sub-sec:output}
@@ -87,20 +87,22 @@ With the API properly setup we now have output on the resource specific URI, in 
 
 \lstinputlisting[label={lst:data-resursa-post},caption= Post resource data output,language=Java]{src/code/js/json-data-post.js}	
 
-The listing above shows the return of a single object with two proprieties: \texttt{meta} and \texttt{objects}. The \texttt{meta} object provides info about the number of objects displayed by in the response. Some important parameters here are \texttt{limit} and \texttt{next} which describe how many objects can be returned in one response and what is the path for the next page of objects in case the response is too big and the system automatically splits the response into separate calls to reduce bandwidth. 
+The listing above shows the return of a single object with two proprieties: \texttt{meta} and \texttt{objects}. The \texttt{meta} object provides information about the number of objects displayed by, in the response. Some important parameters here, are \texttt{limit} and \texttt{next}, which describe how many objects can be returned in one response, and what is the path for the next page of objects, in case the response is too big and the system automatically splits the response into separate calls to reduce bandwidth. 
 
-The \texttt{objects} property describes an array of objects that are located at the specified resource. The data is also described in JSON format, but it can also be formatted as XML by using the \texttt{?format=xml} in the request call. In the case of the \texttt{author} field the API specifies the related path to the location of the data by obeying HATEOAS principles. By further exploring this URI we get the following additional JSON object, presented in \labelindexref{Listing}{lst:json-author-1}, that further describes the author object. 
+The \texttt{objects} property describes an array of objects that are located at the specified resource. The data is also described in JSON format, but it can also be formatted as XML by using the \texttt{?format=xml} in the request call. In the case of the \texttt{author} field, the API specifies the related path to the location of the data, by obeying HATEOAS principles. By further exploring this URI we get the following additional JSON object, presented in \labelindexref{Listing}{lst:json-author-1}, that further describes the author object. 
 
 
 \lstinputlisting[label={lst:json-author-1},caption= Author entry,language=Java]{src/code/js/json-author-1.js}
 
 
-Besides the data output of the \texttt{Post} resource we can also access the JSON Schema available at  \texttt{/posts/api/v1/post/schema/?format=json}. The output of this call can be found in \labelindexref{Appendix}{lst:schema-resursa-post}. The JSON Schema describes the \texttt{type} of each field that is used by the front-end to generate UI components. The standard types described by the Schema can be \texttt{string, integer, datetime} and \texttt{related}. In the case of a \texttt{related} type object the front-end logic will explore the additional \texttt{resource} parameter and display the available data. Another important field used by the front-end logic is the \texttt{readonly} attribute, that points if the object field is editable.	
+Besides the data output of the \texttt{Post} resource we can also access the JSON Schema available at  \texttt{/posts/api/v1/post/schema/?format=json}. The output of this call can be found in \labelindexref{Appendix}{lst:schema-resursa-post} and \labelindexref{Appendix}{lst:schema-resursa-author}. The JSON Schema describes the \texttt{type} of each field that is used by the front-end to generate UI components. 
+
+The standard types described by the Schema can be \texttt{string, integer, datetime} and \texttt{related}. In the case of a \texttt{related} type object the front-end logic will explore the additional \texttt{resource} parameter and display the available data. Another important field used by the front-end logic is the \texttt{readonly} attribute, that points if the object field is editable.	
 
 \section{React Components}
 \label{sec:react-components}
 
-As we presented in the \labelindexref{Overview}{sec:overview} section, the main element of the project is the reactive UI. The interface is built to be agnostic of any changes in the back-end by generating specific components based on the data provided and the JSON Schema. In this section we will present how the React components are structured and how they work together.
+As we presented in the \labelindexref{Overview}{sec:overview} section, the main element of the project is the reactive UI. The interface is built to be agnostic of any changes in the back-end, by generating specific components based on the data provided and the JSON Schema. In this section we will present how the React components are structured and how they work together.
 
 \subsection{Component Structure}
 \label{sub-sec:component-structure}
@@ -110,8 +112,8 @@ By its nature, a web application built in React is composed of multiple reusable
 \fig[scale=0.45]{src/img/components.png}{img:components}{React components structure}
 
 \begin{itemize}
-	\item \texttt{<FormBox/>} - This is the main component that encapsulates all other. This component also has the main purpose of calling the AJAX requests that are called by other components that are its children.
-	\item \texttt{<Navbar/>} - This is not in fact a specific React component but its a structure composed of all the elements that form the page's navigation bar that are actually react components imported from the \texttt{react-bootstrap} package. Some of the components used include:
+	\item \texttt{<FormBox/>} - This is the main component that encapsulates all other. This component also has the main purpose of calling the AJAX requests that are requested by other components that are its children.
+	\item \texttt{<Navbar/>} - This is not in fact a specific React component but its a structure composed of all the elements that form the page's navigation bar, that are actually react components imported from the \texttt{react-bootstrap} package. Some of the components used include:
 	  \begin{itemize}
 	  	\item \texttt{<Navbar/>} and \texttt{<Nav/>} components, used for encapsulating the URL input form.
 	  	\item \texttt{<Input/>} component that describes a simple input form for the URL options.
@@ -125,15 +127,15 @@ By its nature, a web application built in React is composed of multiple reusable
 \subsection{Data Flow}
 \label{sub-sec:data-flow}
 
-We presented in \labelindexref{Section}{sub-sec:react} the data flow within the React framework and we explained how components have \texttt{states} and \texttt{proprieties} as the main mechanism of storing and transmitting data. Next, we will describe how data flows in our application from the API trough the components and back. Based on the simplified diagram is presented in \labelindexref{Figure}{img:data-flow} we can summarize the process in the following steps:
+We presented in \labelindexref{Section}{sub-sec:react} the data flow within the React framework and we explained how components have \texttt{states} and \texttt{proprieties} as the main mechanism of storing and transmitting data. Next, we will describe how data flows in our application from the API trough the components and back. Based on the diagram presented in \labelindexref{Figure}{img:data-flow}, we can summarize the process in the following steps:
 
 \fig[scale=0.45]{src/img/data-flow.png}{img:data-flow}{Data flow inside components}
 
 \begin{enumerate}
-	\item The \texttt{FormBox} component is the center piece of communication with the REST API. On the initial render this component calls an AJAX GET to retrieve \texttt{data} and \texttt{schema} from the resource URI. The data received is structured as an object array as presented in \labelindexref{Section}{sub-sec:output}
-	\item Next the objects array and schema are passed to the \texttt{FormList} upon its rendering as \texttt{properties}.
+	\item The \texttt{FormBox} component, is the center piece of communication with the REST API. On the initial render this component calls an AJAX GET to retrieve \texttt{data} and \texttt{schema} from the resource URI. The data received is structured as an object array as presented in \labelindexref{Section}{sub-sec:output}
+	\item Next, the objects array and schema are passed to the \texttt{FormList} upon its rendering as \texttt{properties}.
 	\item Once the \texttt{FormList} \texttt{render()} function is called, it takes the received data and for each object it renders a \texttt{GenericForm}. The generated \texttt{GenericForm} components will also receive the \texttt{schema} along with the object data in its \texttt{proprieties}.
-	\item With the received data, the \texttt{GenericForm} components can now render the corresponding elements based on the \texttt{schema object}. After the \texttt{GenericForm} component is rendered it can now be added, deleted or edited by the user. When the user presses the submit button on the component, the new data is sent trough a callback that can look like \texttt{handleCommentEdit}. This callback is also inherited trough props from the component's parent. in this case \texttt{FormList}, that also inherits the callback from its parent \texttt{FormBox}. Therefore in the end the new data arrives at the \texttt{FormBox} component.
+	\item With the received data, the \texttt{GenericForm} components can now render the corresponding elements based on the \texttt{schema object}. After the \texttt{GenericForm} component is rendered, it can now be added, deleted or edited by the user. When the user presses the submit button on the component, the new data is sent trough a callback that can look like \texttt{handleCommentEdit}. This callback is also inherited trough props from the component's parent. In this case, \texttt{FormList} also inherits the callback from its parent \texttt{FormBox}. Therefore in the end the new data arrives at the \texttt{FormBox} component.
 	\item The last step consists of the \texttt{FormBox} component to trigger the AJAX call with the new data received from its children. The AJAX call can be of different types:
 	\begin{enumerate}
 		\item POST - If a new object is added trough a modified \texttt{GenericForm} that describes a form with empty fields that acts as an \texttt{AddForm}
@@ -147,17 +149,17 @@ We presented in \labelindexref{Section}{sub-sec:react} the data flow within the 
 \subsection{Generic Form}
 \label{sub-sec:generic-form}
 
-The \texttt{GenericForm} is the core component of the reactive UI. Trough its behavior the UI can auto-generate components without having a preset template from the beginning. Also trough the \texttt{GenericForm} component the UI can auto-explore and re-render further discovered data. 
+The \texttt{GenericForm} is the core component of the reactive UI. Trough its behavior, the UI can auto-generate components without having a preset template from the beginning. Also trough the \texttt{GenericForm} component the UI can auto-explore and re-render further discovered data. 
 
 For the component to be able to accommodate any type of data several auxiliary components have been created. In \labelindexref{Figure}{img:generic-form} we present the internal structure of the \texttt{GenericForm} component.  
 
 \fig[scale=0.35]{src/img/genericform.png}{img:generic-form}{GenericForm component}
 
-The figure shows four different components that describe the four available types in our API (\texttt{string, integer, datetime, related}). It is important to mention that these four types of data are not the only ones possible. We could also have components that describe \texttt{boolean} data or \texttt{enumeration} data. Next, we will continue to describe the structure of the four data types.
+The figure shows four different components that describe the four available types in our API (\texttt{string, integer, datetime, related}). It is important to mention that these four types of data are not the only ones possible. We could also have components that describe \texttt{boolean} data or \texttt{enumeration} data for example. Next, we will continue to describe the structure of the four data types.
 
-The \texttt{GenericForm}'s \texttt{render} function follows a simple algorithm described in \labelindexref{Algorithm}{algo1}. It has the main purpose to return a \texttt{div} container populated with \texttt{content}. This \texttt{content} is actually an array of HTML elements returned by the specific components that form the \texttt{GenericForm} object. To initialize the \texttt{type} specific components the algorithm takes each \texttt{property} and searches for its \texttt{type} in the general \texttt{schema} object. Once the \texttt{type} is knows the proper component is initialized by receiving additional data as React \texttt{props}. These \texttt{props} include the actual \texttt{key:value} property, the \texttt{schema} object (used mainly for related objects and also for readonly objects) and the \texttt{display\_state}.
+The \texttt{GenericForm}'s \texttt{render} function follows a simple algorithm described in \labelindexref{Algorithm}{algo1}. It has the main purpose to return a \texttt{div} container populated with \texttt{content}. This \texttt{content} is actually an array of HTML elements returned by the specific components that form the \texttt{GenericForm} object. To initialize the \texttt{type} specific components, the algorithm takes each \texttt{property} and searches for its \texttt{type} in the general \texttt{schema} object. Once the \texttt{type} is known the proper component is initialized by receiving additional data as React \texttt{props}. These \texttt{props} include the actual \texttt{key:value} property, the \texttt{schema} object (used mainly for related objects and also for readonly objects) and the \texttt{display\_state}.
 
-The \texttt{display\_state} is a \texttt{GenericForm} state that can have two values: \texttt{show} or \texttt{edit}. This state describes if the component can be edited by the user. When a user presses the component \texttt{Edit} button the state changes from its default \texttt{show} value to \texttt{edit} and as any \texttt{setState} function call triggers a component re-render. Upon the new render the \texttt{GenericForm} component will now send the new display state for its children that will change their state accordingly.
+The \texttt{display\_state} is a \texttt{GenericForm} state that can have two values: \texttt{show} or \texttt{edit}. This state describes if the component can be edited by the user. When a user presses the component \texttt{Edit} button the state changes from its default \texttt{show} value to \texttt{edit} and as any \texttt{setState} function call, triggers a component re-render. Upon the new render, the \texttt{GenericForm} component will now send the new \texttt{display\_state} for its children that will change their state accordingly.
 
 \begin{algorithm}[H]
 $content \leftarrow []$
@@ -190,12 +192,12 @@ As we described until now the \texttt{GenericForm} component is a container for 
 \subsubsection{StringComponent}
 \label{sub-sub-sec:string}
 
-The \texttt{StringComponent} is a generic React component that has the role of displaying string type objects. The component also has two states \texttt{show} and \texttt{edit} that facilitate the user to edit it by typing into an editable \texttt{textarea}. Having a \texttt{textarea} input the component must store the current data into its \texttt{state}. Then, the \texttt{textarea} as an \texttt{onChange=\{this.handleChange\}} method applied on it that on a change event calls the \texttt{handleChange} function. This function has the role of setting the new state of the value object for the \texttt{StringComponent}.
+The \texttt{StringComponent} is our generic React component that has the role of displaying string type objects. The component also has two states \texttt{show} and \texttt{edit} that facilitate the user to edit it by typing into an editable \texttt{textarea}. Having a \texttt{textarea} input the component must store the current data into its \texttt{state}. Then, the \texttt{textarea} as an \texttt{onChange=\{this.handleChange\}} method applied on it that on a change event calls the \texttt{handleChange} function. This function has the role of setting the new state of the value object for the \texttt{StringComponent}.
 
 \subsubsection{IntegerComponent}
 \label{sub-sub-sec:integer}
 
-The \texttt{IntegerComponent} has a similar structure to the \texttt{StringComponent}. In our project this component is used to display the \texttt{posts} or \texttt{authors} specific \texttt{ids}. 
+The \texttt{IntegerComponent} has a similar structure to the \texttt{StringComponent}. In our demo this component is used to display the \texttt{posts} or \texttt{authors} specific \texttt{ids}. 
 
 \subsubsection{DateTimeComponent}
 \label{sub-sub-sec:date}
@@ -228,4 +230,4 @@ The \texttt{RelatedComponent} is the most special and important component becaus
 	\caption{RelatedComponent render algorithm}
 \end{algorithm}
 
-The first step is getting the URI from the \texttt{resource} field in the schema. As an example this URI may look like \texttt{/posts/api/v1/author/} and point to the location of all the elements that are available at the resource where the related component URI (eg. \texttt{/posts/api/v1/post/1/}) came from. With this data the component can now load it into a dropdown for the user to select if he wants which object to explore. After the desired resource was selected in the dropdown, when the user presses the \texttt{Edit} button the state changes from \texttt{explore:false} to \texttt{explore:true} and the component calls an AJAX GET request to retrieve the data (and schema) about that certain object. With the new data the component now initializes another \texttt{GenericForm} component that will render the new data as described in the previous sections. 
+The first step is getting the URI from the \texttt{resource} field in the schema. As an example, this URI may look like \texttt{/posts/api/v1/author/}, and point to the location of all the elements that are available at the resource where the related component URI (eg. \texttt{/posts/api/v1/post/1/}) came from. With this data, the component can now load it into a dropdown for the user to select which object to explore. After the desired resource was selected in the dropdown, when the user presses the \texttt{Edit} button, the state changes from \texttt{explore:false} to \texttt{explore:true}, and the component calls an AJAX GET request to retrieve the data (and schema) about that certain object. With the new data, the component now initializes another \texttt{GenericForm} component that will render it as described in the previous sections. 

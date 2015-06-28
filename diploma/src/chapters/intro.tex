@@ -20,9 +20,9 @@ The Dynamic Webform Builder project started out as an idea at Hootsuite Romania 
 \section{Motivation}
 \label{sec:motivation}
 
-Today's web applications are split into the front-end, usually available on the client side and the back-end often described as the server-side. This division forces developers in big companies to work in specialized teams for the front -end and the back-end development. Ideally developers wish that the front-end and the back-end of the application are agnostic of each other, therefore excluding further problems such as changing a resource URL(Uniform Resource Locator) on the server side and having to manually change it everywhere in the front-end. Avoiding these kind of conflicts will speed up the development process and therefore generating more profit for the company.
+Today's web applications are split into the front-end, usually available on the client side and the back-end often described as the server-side. This division forces developers in big companies to work in specialized teams for the front-end and the back-end development. Ideally developers wish that the front-end and the back-end of the application are agnostic of each other, therefore excluding future development problems such as changing a resource URL(Uniform Resource Locator) on the server side and having to manually update it everywhere in the front-end. Avoiding these kind of conflicts will speed up the development process and therefore will generate more profit for the company.
 
-For a front-end application to be agnostic of it's back-end it should be able to auto explore a given API endpoint that may change over time. Also the front-end should be able to auto-generate UI components regardless of the data type and structure retrieved from the server.
+For a front-end application to be agnostic of its back-end it should be able to auto explore a resource may evolve over time. Also the front-end should be able to auto-generate UI components regardless of the data type and structure retrieved from the server.
 
 Therefore this project aims to demonstrate that it is possible to have auto-exploration and auto-generation in a front-end application that is independent of the data changes from the back-end server.
 
@@ -30,27 +30,27 @@ Therefore this project aims to demonstrate that it is possible to have auto-expl
 \section{Background}
 \label{sec:background}
 
-In this section we describe the base concepts that are used across this thesis. Therefore we start by describing the concept of a Web service in section~\ref{sub-sec:web-service} followed by explaining the base concepts behind the REST software architecture in~\ref{sub-sec:rest} and it's HATEOAS constraint described in~\ref{sub-sec:hateoas}.
+In this section we describe the base concepts that are used across this thesis. Therefore we start by describing the concept of a Web service in section~\ref{sub-sec:web-service} followed by explaining the base concepts behind the REST software architecture in section~\ref{sub-sec:rest} and it's HATEOAS constraint described in section~\ref{sub-sec:hateoas}.
 
 \subsection{Web Service}
 \label{sub-sec:web-service}
 
 As the W3C (World Wide Web Consortium) states \cite{W3C}, ``A Web service is a software system designed to support interoperable machine-to-machine interaction over a network. It has an interface described in a machine-processable format (specifically Web Service Definition Language). Other systems interact with the Web service in a manner prescribed by its description using SOAP-messages, typically conveyed using HTTP with an XML serialization in conjunction with other Web-related standards.'' 
 
-Therefore we can define a web service in more simpler terms as a framework for a conversation between two computers that are communicating over the web, where a client sends a request message and the server receives that request, processes it and returns a response message.
+Therefore we can define a Web service in more simpler terms as a framework for a conversation between two computers that are communicating over the Web, where a client sends a request message and the server receives it, processes it, and returns a response message.
 
-Interaction with web services is done typically trough HTTP (Hypertext Transfer Protocol). An example of web service interaction in today's web pages is described by AJAX(Asynchronous JavaScript and XML) requests.   To prevent a full page transition a the browser may initiate an asynchronous request (AJAX call) asking for specific data to be rendered later(eg. rendering an email into the Gmail application). The server will send a response in the form of HTML (HyperText Markup Language) code or just pure data encoded in XML (EXtensible Markup Language) or JSON (JavaScript Object Notation) that will be used to render the requested element in page.
+Interaction with Web services is done typically trough HTTP (Hypertext Transfer Protocol). An example of Web service interaction in today's web pages is described by AJAX(Asynchronous JavaScript and XML) requests.   To prevent a full page transition a the browser may initiate an asynchronous request (AJAX call) asking for specific data to be rendered later (eg. rendering a new email into the Gmail application). The server will send a response in the form of HTML (HyperText Markup Language) code or just pure data encoded in XML (EXtensible Markup Language) or JSON (JavaScript Object Notation) that will be used to render the requested element in page.
 
 \subsubsection{Web API}
 \label{sub-sub-sec:web-api}
 
-Even if the messages sent and received from the web service are transmitted trough HTTP, as a developer you still need to have knowledge of the messages format that are being sent or received. Therefore you will need to know details about the service's API.
+Even if the messages sent and received from the Web service are transmitted trough HTTP, as a developer you still need to have knowledge of the their format. Therefore, you will need to know details about the service's API.
 
 An Application Programming Interface (API) is a particular
 set of rules and specifications that a software program can follow to access and make use of the services
-and resources provided by another particular software program that implements that API.
+and resources provided by another entity that implements that API.
 
-A Web API defines both the server-side API as well as the client browser API and must impose specific elements like the message format or request syntax. Some web services may use SOAP, XML or JSON for data formatting on the request and response calls. On the client side a developer should know if the request syntax may imply using certain URI's (Uniform Resource Identifiers) and specific parameters and data types. On the server side the web service will act on different types of requests that can be associated with HTTP verbs like GET, POST, PUT, PATCH or DELETE. Again, the developer should know the format of the messages received and structure of the data including specific fields and data types.
+A Web API defines both the server-side API as well as the client browser API and must impose specific elements like the message format or request syntax. Some Web services may use SOAP (Simple Object Access Protocol), XML or JSON for data formatting on the request and response calls. On the client side, a developer should know if the request syntax may imply using certain URI's (Uniform Resource Identifiers) and specific parameters and data types. On the server side, the Web service will act on different types of requests that can be associated with HTTP verbs like GET, POST, PUT, PATCH or DELETE. Again, the developer should know the format of the messages received and structure of the data including specific fields and data types.
 
 According to the W3C \cite{W3C} we identify two major classes:
 \begin{itemize}
@@ -68,29 +68,29 @@ As Roy Fielding states in his dissertation \cite{fielding} ``REST provides a set
 
 The elements of the REST architectural style can be summarized as follows:
 \begin{itemize}
-	\item \textbf{Data Elements} -Describes the actual data that is transfered and the information about where the data can be accessed. The REST data elements can be summarized as follows: \texttt{resource, resource identifier, representation, representation\\ metadata, resource metadata, control data}.
+	\item \textbf{Data Elements} - Describe the actual data that is transfered, and the information about where the data can be accessed. The REST data elements can be summarized as follows: \texttt{resource, resource identifier, representation, representation\\ metadata, resource metadata, control data}.
 	\item \textbf{Connectors} - Provide an interface for the components to communicate when requesting information from a  resource and when transferring data. The multiple connector types can be enumerated follows: \texttt{client, server, cache, resolver, tunner}.
 	\item \textbf{Components} - Are the entities that participate in a REST process. The REST components are composed of the following: \texttt{origin server, gateway, proxy, user agent}.
 \end{itemize}
-The main way REST is defined, is around its set of specific constraints. Next we will follow to present the REST architecture style formal constraints as specified by the W3C \footnote{\url{http://www.w3.org/TR/2002/WD-webarch-20020830/\#rest-constraints	}}.
+The main way REST is defined, is around its set of specific constraints. Next, we will follow to present the REST architecture style formal constraints as specified by the W3C \footnote{\url{http://www.w3.org/TR/2002/WD-webarch-20020830/\#rest-constraints  }}.
 \subsubsection{Client-Server model}
-The first constraint imposes a client-server architecture. Therefore the web service consumer will send a request with a certain task and the web service will execute the task and retrieve a response if it the task was completed successfully of not. The client-server model offers the advantage of independence between the logic on both communicating entities.
+The first constraint imposes a client-server architecture. This implies that the Web service consumer will send a request with a certain task, and the Web service will execute the task and retrieve a response if it was completed successfully or not. The client-server model offers the advantage of independence between the logic on both communicating entities.
 \subsubsection{Stateless protocols}
-Secondly the communication between the client and the server must be completely stateless. In other therms when a web service consumer makes a requests it must send all the necessary data for the server to complete the task. This may include authentication data or other related info. The constraint also contributes to an improvement in scalability thus it also leads to more data being sent over the network. 
+Secondly, the communication between the client and the server must be completely stateless. In other terms, when a Web service consumer makes a requests it must send all the necessary data for the server to complete the task. This may include authentication data or other related info. The constraint also contributes to an improvement in scalability thus it also leads to more data being sent over the network. 
 \subsubsection{Caching}
-We mentioned above that stateless design can increase network traffic. Therefore a caching mechanism has been imposed to the REST architectural style. When the web service sends a response it must label if if it can be cached by the consumer. With this constraint scalability and performance is also improved.
+We mentioned above that stateless design can increase network traffic. Therefore a caching mechanism has been imposed to the REST architectural style. When the Web service sends a response it must label if if it can be cached by the consumer therefore reducing the overall number of future requests. With this constraint, scalability and performance is also improved.
 \subsubsection{Uniform Interface}
 The \texttt{Uniform Interface} constraint implies that the clients and servers use the same the same interface to communicate between each other. Usually in practice this is done trough the HTTP protocol.
 \subsubsection{Layered System}
-The \texttt{Layered System} constraint allows the components to be structured as layers so that one layer can not reach past the following layer. Therefore a service consumer will not be able to see past the web service he is talking with, even if the web service has a link with another REST in the next layer. This constraint can reduce efficiency buy it improves scalability.
+The \texttt{Layered System} constraint allows the components to be structured as layers so that one layer can not reach past the following layer. Therefore, a service consumer will not be able to see past the Web service he is talking with, even if the this one can link with another service in the next layer. This constraint can reduce efficiency buy it improves scalability.
 \subsubsection{Code-On-Demand}
-Finally the last constraint is defined as optional and implies that clients are allowed to update their logic by requesting code from the server. This is usually achieved by web browsers trough AJAX calls and JavaScript language.
+Finally, \texttt{Code-On-Demand} is an optional constraint which states that clients are allowed to update their logic by requesting code from the server. This is usually achieved by web browsers trough AJAX calls and JavaScript language.
 
 \subsection{HATEOAS}
 \label{sub-sec:hateoas}
 
-HATEOAS (or Hypertext As The Engine Of Application State) is a constraint of the REST architecture style, that implies the client to be able to understand and interact with the web service only trough hypermedia received from it.
+HATEOAS (or Hypertext As The Engine Of Application State) is a constraint of the REST architecture style, that implies the client to be able to understand and interact with the Web service only trough hypermedia received from it.
 
-Therefore the system will behave like a state machine where the client (consumer) will set its beginning state on the initial location (URI) and it will transition into another state by getting a link from the servers response to another location (URI). As Roy Fielding firmly states\footnote{\url{http://roy.gbiv.com/untangled/2008/rest-apis-must-be-hypertext-driven}} ``A REST API should be entered with no prior knowledge beyond the initial URI (bookmark) and set of standardized media types and from that point on, all application state transitions must be driven by client selection of server-provided choices that are present in the received representations.''
+Therefore, the system will behave like a state machine where the client (consumer) will set its beginning state on the initial location (URI), and it will transition into another state by getting a link to another location (URI) from the server's response. As Roy Fielding states ``A REST API should be entered with no prior knowledge beyond the initial URI (bookmark) and set of standardized media types and from that point on, all application state transitions must be driven by client selection of server-provided choices that are present in the received representations.''\footnote{\url{http://roy.gbiv.com/untangled/2008/rest-apis-must-be-hypertext-driven}}
 
-The constraint solves the problem of an application being dependent of a specific API version in time. A resource may evolve in time and certain data may be represented in other forms. HATEOAS reduces coupling between client and server and alls developing of applications that are totally independent of the changes on the server.
+The constraint solves the problem of an application being dependent of a specific API version in time. A resource may evolve in time and certain data may be represented in other forms. HATEOAS reduces coupling between client and server and enables development of applications that are totally independent of the changes on the server.
