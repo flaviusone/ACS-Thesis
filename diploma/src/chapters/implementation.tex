@@ -30,7 +30,7 @@ The following sections get into more detail on each of the steps described above
 \section{Django Data Models}
 \label{sec:django-models}
 
-For the purpose of the project we only needed a functional REST API and a way to render the main HTML page. The first step of establishing the REST API was to define the Django data models. For testing purposes we defined a \texttt{Post} entity, similar to a usual blog post, with the following properties:
+For the purpose of the project we only needed a functional REST API and a way to render the main HTML page. The first step of establishing the REST API was to define the Django data models \cite{book2}. For testing purposes we defined a \texttt{Post} entity, similar to a usual blog post, with the following properties:
 
 \begin{itemize}
 	\item \texttt{title} - The title of the post.
@@ -52,7 +52,7 @@ Field types are classes that describe and encapsulate certain type of data. As i
 \section{REST API}
 \label{sec:api}
 
-The REST API set up trough Django Tastypie, is the most important part of our back-end. It takes the data models described in the previous section and outputs them in a RESTful way. We will next present how we set up the API and also its resulted output.
+The REST API set up trough Django Tastypie, is the most important part of our back-end. It takes the data models described in the previous section and outputs them in a RESTful way \cite{book1}. We will next present how we set up the API and also its resulted output.
 
 \subsection{Resources}
 \label{sub-sec:resources}
@@ -107,7 +107,7 @@ As we presented in the \labelindexref{Overview}{sec:overview} section, the main 
 \subsection{Component Structure}
 \label{sub-sec:component-structure}
 
-By its nature, a web application built in React is composed of multiple reusable \texttt{React Components}. In \labelindexref{Figure}{img:generic-form} we present a simplified version of the UI component structure that describes the following elements:
+By its nature, a web application built in React is composed of multiple reusable \texttt{React Components} \cite{book3}. In \labelindexref{Figure}{img:generic-form} we present a simplified version of the UI component structure that describes the following elements:
 
 \fig[scale=0.45]{src/img/components.png}{img:components}{React components structure}
 

@@ -22,7 +22,7 @@ Django's architecture is described by the developers\footnote{https://docs.djang
 
 The ``Model'' consists of an object-relational mapper that translates data models defined in Python classes to classic relational database tables. Django's default relational database management system is SQLite.
 
-Models are represented by Python classes and contain essential fields and behaviors of the stored data and represent the single source of information about that data. Every class inherits the \texttt{django.db.models.Model} and each model attribute represents a database field. We present a  very basic example of a \texttt{Book} model class in \labelindexref{Listing}{lst:model-py}.
+Models are represented by Python classes and contain essential fields and behaviors of the stored data and represent the single source of information about that data. Every class inherits the \texttt{django.db.models.Model} and each model attribute represents a database field \cite{book5}. We present a  very basic example of a \texttt{Book} model class in \labelindexref{Listing}{lst:model-py}.
 
 \lstinputlisting[label={lst:model-py},caption=Book model class,language=Python]{src/code/python/modelexample.py}
 
@@ -99,7 +99,7 @@ In the above example we can see a simple component that describes an HTML input 
 	\item \texttt{props} - Are usually received from the parent component and should never be modified inside the component's functions as they are the it's single source of truth.
 	\item \texttt{state} - Describes the state of the component at a moment in time. The state can \textbf{only} be set at the initial rendering of the component trough \texttt{getInitialState()} function and trough the component \texttt{setState()} function. On any change of the state (resulted by calling the \texttt{setState()} function) the component will call the \texttt{render()} function, thus synchronizing the UI with its current state.
 	\item \texttt{render} - The function that actually generates and updates the DOM components. It should never be called by the developer as it is automatically called on specific events such as component initial mount, \texttt{setState()} calls etc. Another feature that can be seen in the example is the return value of the \texttt{render()} function which actually contains some HTML syntax. This is an optional feature of React that js called JSX. The JSX syntax provides developers a more familiar way to describe the DOM elements that they deserve. In \labelindexref{Listing}{lst:simple-react-component} the return value will be compiled by a JSX compiler to the equivalent call:
-	\texttt{React.createElement(type:"text", value:this.state.value, onChange:this.handleChange)}.
+	\texttt{React.createElement(type:"text", value:this.state.value,\\ onChange:this.handleChange)}.
 \end{itemize}
 
 The only data a component will work with are \texttt{props} that are  usually received from its parent component and the component \texttt{state}.
